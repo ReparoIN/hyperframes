@@ -1,0 +1,96 @@
+# call.cards — 4:30 Full Explainer Voiceover Script
+# Generate: npx hyperframes tts voiceover-script.txt --out assets/voiceover.mp3
+# Voice: confident, moderate Indian accent, conversational but sharp
+# Total duration: ~4 min 30 sec (270 seconds)
+
+[0:00 – 0:15] HOOK
+Seventy-two percent. That's how many tradeshow leads just disappear.
+You spend lakhs getting to the show, set up a beautiful booth,
+have a hundred great conversations — and then Monday morning hits,
+and half those business cards are in a pile you'll never touch again.
+
+[0:15 – 0:45] THE PROBLEM
+Here's the reality of tradeshows today in India.
+You hand out hundreds of paper business cards — half end up in the bin.
+You manually scan badge QR codes that take days to decode.
+You jot down product inquiries on paper, then try to reconstruct them
+on a laptop three days later. Your team collects contacts with no system —
+no tags, no notes, no next steps.
+And for organizers? You're handing out plastic badge lanyards
+and hoping exhibitors figure it out. There's no real data.
+No insight into what's working. Just chaos with a nice banner backdrop.
+There has to be a better way.
+
+[0:45 – 1:15] SOLUTION INTRO
+Introducing callcard — the digital tradeshow toolkit
+built for Indian exhibitors and organizers.
+callcard replaces the whole paper stack —
+business cards, product catalogs, badge scanners, and lead capture forms —
+with one app on your phone.
+You get to the show. You share your profile. You capture leads.
+You walk away with a clean CRM-ready list. That's it.
+
+[1:15 – 1:55] FEATURE 1: DIGITAL BUSINESS CARDS
+Feature one — Digital Business Cards.
+Your callcard profile is your live digital identity at the show.
+Name, title, company, phone, email, social links —
+all on one shareable screen. No printing. No running out. No typos.
+Share it in under three seconds — via QR code, NFC tap, or a direct link.
+The visitor saves your contact instantly to their phone.
+No app required on their end.
+And when your number changes, your title changes, your booth changes —
+update once, and everyone who scanned you already has the new info.
+Your business card is always live.
+
+[1:55 – 2:30] FEATURE 2: PRODUCT CATALOGS
+Feature two — Digital Product Catalogs.
+Stop handing out glossy brochures that end up under a seat.
+With callcard, your entire product line lives inside your profile —
+images, specs, pricing, videos.
+When a visitor is interested, they tap Request Quote right inside the catalog.
+Their details come straight to your dashboard.
+You know exactly what they were looking at, not just that they visited.
+You also get analytics — which products got the most views,
+which ones drove quote requests. Real data from your booth, in real time.
+
+[2:30 – 3:00] FEATURE 3: BADGE SCANNER
+Feature three — Badge Scanner.
+At most Indian tradeshows, visitor badges carry a QR code.
+callcard's built-in scanner reads it instantly and pulls in the visitor's profile —
+name, company, designation, email.
+Right after the scan, add a note — what they were interested in,
+their timeline, whether they're the decision maker. Tag it. Prioritize it.
+And it's all synced to your account before they've even left your booth.
+No more re-entering contacts into a spreadsheet at midnight.
+Every scan is already in your system, ready for follow-up.
+
+[3:00 – 3:30] FEATURE 4: LEAD CAPTURE FORMS
+Feature four — Lead Capture Forms.
+Set up a form on a tablet at your booth —
+branded with your logo, customised fields, whatever you need.
+Visitors fill it in themselves while your team is talking to someone else.
+Every submission goes live to your callcard account.
+Export to CSV, push to your CRM, or let callcard's built-in
+follow-up sequence handle it.
+No manual data entry. No missed contacts.
+
+[3:30 – 4:15] OUTCOME
+Here's what exhibitors on callcard are walking away with.
+More leads captured — because no conversation is lost.
+Faster follow-up — because your team already has everything they need
+before they leave the venue.
+Higher conversion — because you know which leads are hot
+and exactly what they wanted.
+Three times more leads captured. Follow-up sent same day.
+Full contact data, zero manual entry.
+One exhibitor at a manufacturing expo in Mumbai told us —
+they used to follow up on maybe twenty leads after a show.
+With callcard, they captured a hundred and forty qualified contacts
+and followed up on all of them by end of week.
+
+[4:15 – 4:30] CALL TO ACTION
+callcard is self-serve, free to start,
+and takes ten minutes to set up before your next show.
+Head to call.cards — that's C-A-L-L dot C-A-R-D-S —
+and create your free account today.
+Your next show is coming. Don't leave the leads behind.
