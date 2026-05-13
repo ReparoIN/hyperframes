@@ -1,0 +1,37 @@
+# call.cards — 60-Second Video Voiceover Script
+# Generate audio: npx hyperframes tts voiceover-script.txt --out assets/voiceover.mp3
+# Voice: confident, moderate Indian accent, conversational but sharp
+# Total duration: ~60 seconds
+
+[0:00 – 0:06] HOOK
+Seventy-two percent of tradeshow leads are never followed up on.
+
+[0:06 – 0:15] PROBLEM
+You spend lakhs getting there. Have a hundred great conversations.
+Then Monday hits — and it's all just a pile of paper cards
+you'll never touch again.
+
+[0:15 – 0:22] BRAND REVEAL
+Introducing call.cards — the digital lead capture app
+built for Indian tradeshow exhibitors.
+
+[0:22 – 0:28] FEATURES
+Digital cards. Product catalogs. Badge scanner. Lead capture forms.
+One app. Everything.
+
+[0:28 – 0:50] BADGE SCANNER DEMO
+Here's the game-changer: the Badge Scanner.
+Point your phone at any visitor badge.
+Name, company, email — saved instantly.
+Add a quick note — what they wanted, their timeline.
+Tag it hot, warm, or cold.
+It's all synced before they've left your booth.
+No spreadsheets. No midnight data entry.
+
+[0:50 – 0:57] OUTCOME
+Three times more leads captured.
+Follow-up sent same day.
+Full contact data, zero manual entry.
+
+[0:57 – 1:00] CTA
+call.cards. Free to start. call dot cards.
