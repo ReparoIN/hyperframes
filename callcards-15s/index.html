@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      #root { position: relative; width: 1080px; height: 1920px; }
+
+      .clip {
+        position: absolute;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #006644 0%, #00A36C 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Feature cards — all stacked at same position, GSAP cycles them */
+      .fcard {
+        position: absolute;
+        left: 72px;
+        right: 72px;
+        top: 600px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 2px solid rgba(0, 163, 108, 0.25);
+        border-radius: 32px;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 28px;
+      }
+
+      .fcard--active {
+        background: rgba(0, 138, 94, 0.09);
+        border-color: rgba(0, 163, 108, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="callcards-15s"
+      data-start="0"
+      data-duration="15"
+      data-width="1080"
+      data-height="1920"
+    >
+
+      <!-- ═══════════════════════════
+           TRACK 0 — BACKGROUNDS
+      ═══════════════════════════ -->
+
+      <!-- Dark bg: hook + feature montage (0–10s) -->
+      <div id="bg-dark" class="clip" data-start="0" data-duration="10" data-track-index="0"
+           style="background:#0A0F0C;">
+        <div style="position:absolute;bottom:-200px;left:50%;transform:translateX(-50%);
+             width:900px;height:600px;border-radius:50%;
+             background:radial-gradient(ellipse,rgba(0,163,108,0.18) 0%,transparent 65%);"></div>
+        <div style="position:absolute;inset:0;opacity:0.10;
+             background-image:radial-gradient(circle,rgba(0,163,108,0.4) 1px,transparent 1px);
+             background-size:54px 54px;"></div>
+      </div>
+
+      <!-- Light bg: payoff + CTA (10–15s) -->
+      <div id="bg-light" class="clip" data-start="10" data-duration="5" data-track-index="0"
+           style="background:#F4F8F6;">
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+             width:1200px;height:1200px;border-radius:50%;
+             background:radial-gradient(ellipse,rgba(0,138,94,0.14) 0%,rgba(0,163,108,0.06) 50%,transparent 70%);"></div>
+        <div style="position:absolute;inset:0;opacity:0.18;
+             background-image:radial-gradient(circle,rgba(0,138,94,0.25) 1px,transparent 1px);
+             background-size:54px 54px;"></div>
+      </div>
+
+
+      <!-- ═══════════════════════════
+           SCENE 1 — HOOK  (0–3s)
+           "Paper business cards are dead."
+      ═══════════════════════════ -->
+      <div id="s1" class="clip" data-start="0" data-duration="3" data-track-index="1">
+
+        <div style="position:absolute;left:72px;right:72px;top:580px;">
+
+          <!-- "Paper business cards" with animated strikethrough -->
+          <div style="position:relative;display:inline-block;margin-bottom:24px;">
+            <div id="s1-top" style="font-size:110px;font-weight:900;line-height:1.0;
+                 letter-spacing:-4px;color:rgba(255,255,255,0.88);">
+              Paper<br>business<br>cards
+            </div>
+            <!-- Red strikethrough bar -->
+            <div id="s1-strike" style="position:absolute;left:-10px;right:-10px;
+                 top:50%;margin-top:-7px;height:14px;border-radius:7px;
+                 background:#C83232;"></div>
+          </div>
+
+          <div id="s1-dead" style="font-size:120px;font-weight:900;
+               letter-spacing:-4px;color:#FFFFFF;line-height:1.0;">are dead.</div>
+        </div>
+
+        <!-- Subtle brand watermark -->
+        <div id="s1-wm" style="position:absolute;bottom:140px;right:72px;
+             font-size:28px;font-weight:700;letter-spacing:3px;
+             color:rgba(0,163,108,0.5);text-transform:uppercase;">call.cards</div>
+      </div>
+
+
+      <!-- ═══════════════════════════
+           SCENE 2 — FEATURE CAROUSEL  (3–10s)
+           Four features swipe in from right, exit left.
+           Badge scanner (fc3) is highlighted.
+      ═══════════════════════════ -->
+      <div id="s2" class="clip" data-start="3" data-duration="7" data-track-index="1">
+
+        <!-- Eyebrow -->
+        <div id="s2-hed" style="position:absolute;left:0;right:0;top:280px;text-align:center;
+             font-size:26px;font-weight:700;letter-spacing:6px;
+             text-transform:uppercase;color:#00A36C;">One App. Everything.</div>
+
+        <!-- Feature card 1: Digital Cards -->
+        <div id="fc1" class="fcard">
+          <div style="font-size:110px;line-height:1;">&#128199;</div>
+          <div style="font-size:78px;font-weight:900;line-height:1.02;
+               letter-spacing:-2px;color:#FFFFFF;">Digital<br>Cards</div>
+          <div style="font-size:36px;font-weight:400;color:rgba(255,255,255,0.62);line-height:1.4;">
+            Share your full profile<br>in under 3 seconds
+          </div>
+        </div>
+
+        <!-- Feature card 2: Product Catalogs -->
+        <div id="fc2" class="fcard">
+          <div style="font-size:110px;line-height:1;">&#128203;</div>
+          <div style="font-size:78px;font-weight:900;line-height:1.02;
+               letter-spacing:-2px;color:#FFFFFF;">Product<br>Catalogs</div>
+          <div style="font-size:36px;font-weight:400;color:rgba(255,255,255,0.62);line-height:1.4;">
+            Your entire catalog<br>on their phone instantly
+          </div>
+        </div>
+
+        <!-- Feature card 3: Badge Scanner (hero — jade highlight) -->
+        <div id="fc3" class="fcard fcard--active">
+          <div style="font-size:110px;line-height:1;">&#128248;</div>
+          <div style="font-size:78px;font-weight:900;line-height:1.02;
+               letter-spacing:-2px;color:#00A36C;">Badge<br>Scanner</div>
+          <div style="font-size:36px;font-weight:400;color:rgba(255,255,255,0.62);line-height:1.4;">
+            Name, company, email<br>saved in one tap
+          </div>
+        </div>
+
+        <!-- Feature card 4: Lead Capture -->
+        <div id="fc4" class="fcard">
+          <div style="font-size:110px;line-height:1;">&#128221;</div>
+          <div style="font-size:78px;font-weight:900;line-height:1.02;
+               letter-spacing:-2px;color:#FFFFFF;">Lead<br>Capture</div>
+          <div style="font-size:36px;font-weight:400;color:rgba(255,255,255,0.62);line-height:1.4;">
+            Custom forms, zero<br>clipboards, zero re-entry
+          </div>
+        </div>
+
+        <!-- Progress pill indicators -->
+        <div id="s2-dots" style="position:absolute;bottom:180px;left:0;right:0;
+             display:flex;justify-content:center;align-items:center;gap:14px;">
+          <div id="dot1" style="height:8px;border-radius:4px;background:#00A36C;width:44px;"></div>
+          <div id="dot2" style="height:8px;border-radius:50%;background:rgba(255,255,255,0.22);width:8px;"></div>
+          <div id="dot3" style="height:8px;border-radius:50%;background:rgba(255,255,255,0.22);width:8px;"></div>
+          <div id="dot4" style="height:8px;border-radius:50%;background:rgba(255,255,255,0.22);width:8px;"></div>
+        </div>
+
+        <!-- Counter label -->
+        <div id="s2-ctr" style="position:absolute;bottom:140px;left:0;right:0;text-align:center;
+             font-size:22px;font-weight:600;letter-spacing:3px;
+             color:rgba(255,255,255,0.3);text-transform:uppercase;">1 / 4</div>
+      </div>
+
+
+      <!-- ═══════════════════════════
+           SCENE 3 — PAYOFF  (10–13s)
+           "Never lose a lead again."
+      ═══════════════════════════ -->
+      <div id="s3" class="clip" data-start="10" data-duration="3" data-track-index="1">
+
+        <div id="s3-lt" style="position:absolute;top:0;left:0;width:1080px;height:5px;
+             background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);"></div>
+        <div id="s3-lb" style="position:absolute;bottom:0;left:0;width:1080px;height:5px;
+             background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);"></div>
+
+        <div style="position:absolute;left:72px;right:72px;top:660px;text-align:center;">
+          <div id="s3-l1" style="font-size:128px;font-weight:900;line-height:1.0;
+               letter-spacing:-5px;color:#0E1A14;">Never lose</div>
+          <div id="s3-l2" style="font-size:128px;font-weight:900;line-height:1.0;
+               letter-spacing:-5px;" class="gradient-text">a lead again.</div>
+          <div id="s3-rule" style="width:320px;height:4px;border-radius:2px;
+               background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);
+               margin:44px auto 0;"></div>
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════
+           SCENE 4 — CTA  (13–15s)
+           call.cards logo + URL
+      ═══════════════════════════ -->
+      <div id="s4" class="clip" data-start="13" data-duration="2" data-track-index="1">
+
+        <div id="s4-glow" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+             width:1200px;height:1200px;border-radius:50%;
+             background:radial-gradient(ellipse,rgba(0,138,94,0.18) 0%,rgba(0,163,108,0.07) 50%,transparent 70%);"></div>
+
+        <div id="s4-ll" style="position:absolute;left:0;top:0;width:6px;height:1920px;
+             background:linear-gradient(180deg,transparent,#008A5E 40%,#00A36C 60%,transparent);"></div>
+        <div id="s4-lr" style="position:absolute;right:0;top:0;width:6px;height:1920px;
+             background:linear-gradient(180deg,transparent,#00A36C 40%,#008A5E 60%,transparent);"></div>
+
+        <div style="position:absolute;left:72px;right:72px;top:50%;transform:translateY(-50%);
+             display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px;">
+
+          <div id="s4-logo" style="font-size:140px;font-weight:900;line-height:1;
+               letter-spacing:-5px;white-space:nowrap;">
+            <span style="color:#0E1A14;">call</span><span class="gradient-text">.cards</span>
+          </div>
+
+          <div id="s4-free" style="font-size:46px;font-weight:400;color:#607A6E;">Free to start</div>
+
+          <div id="s4-url" style="font-size:30px;font-weight:700;letter-spacing:4px;
+               color:#008A5E;text-transform:uppercase;">CALL.CARDS</div>
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════
+           AUDIO  (TRACK 2)
+           Music only — no voiceover for this cut
+      ═══════════════════════════ -->
+      <audio id="music"
+             data-start="0" data-duration="15" data-track-index="2"
+             data-volume="0.45"
+             src="../shared/music/nastelbom-upbeat-507934.mp3"></audio>
+
+    </div><!-- /#root -->
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── Initial hidden states ──────────────────────────────────────────
+      gsap.set("#s1-strike",            { scaleX: 0, transformOrigin: "left" });
+      gsap.set(["#s3-lt","#s3-lb","#s3-rule"], { scaleX: 0, transformOrigin: "center" });
+      gsap.set(["#s4-ll","#s4-lr"],    { opacity: 0 });
+      // All feature cards start off-screen right
+      gsap.set(["#fc1","#fc2","#fc3","#fc4"], { x: 1100, opacity: 0 });
+
+      // ── Music ─────────────────────────────────────────────────────────────
+      tl.fromTo("#music", { volume: 0 }, { volume: 0.45, duration: 0.8, ease: "sine.out" }, 0);
+      tl.to("#music", { volume: 0, duration: 1.0, ease: "sine.in" }, 14);
+
+      // ── SCENE 1: HOOK (0–3s) ─────────────────────────────────────────────
+      tl.from("#s1-top",    { opacity: 0, y: 55, duration: 0.4, ease: "expo.out" }, 0.1);
+      tl.to("#s1-strike",   { scaleX: 1, duration: 0.35, ease: "power4.out" }, 0.65);
+      tl.from("#s1-dead",   { opacity: 0, y: 40, duration: 0.38, ease: "expo.out" }, 1.1);
+      tl.from("#s1-wm",     { opacity: 0, duration: 0.3, ease: "sine.out" }, 1.3);
+
+      // ── SCENE 2: FEATURE CAROUSEL (3–10s) ────────────────────────────────
+      tl.from("#s2-hed",    { opacity: 0, y: -18, duration: 0.35, ease: "power3.out" }, 3.1);
+      tl.from("#s2-dots",   { opacity: 0, duration: 0.3, ease: "sine.out" }, 3.15);
+      tl.from("#s2-ctr",    { opacity: 0, duration: 0.3, ease: "sine.out" }, 3.15);
+
+      // Card 1 in (3.2s) → out (4.75s)
+      tl.to("#fc1", { x: 0, opacity: 1, duration: 0.38, ease: "expo.out" }, 3.2);
+      tl.to("#fc1", { x: -1100, opacity: 0, duration: 0.28, ease: "power3.in" }, 4.6);
+      // Dot 1 → 2 + counter update
+      tl.to("#dot1", { width: 8, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.22)", duration: 0.2 }, 4.6);
+      tl.to("#dot2", { width: 44, borderRadius: "4px", backgroundColor: "#00A36C", duration: 0.2 }, 4.6);
+      tl.to("#s2-ctr", { innerText: "2 / 4", duration: 0 }, 4.6);
+
+      // Card 2 in (4.88s) → out (6.4s)
+      tl.to("#fc2", { x: 0, opacity: 1, duration: 0.38, ease: "expo.out" }, 4.88);
+      tl.to("#fc2", { x: -1100, opacity: 0, duration: 0.28, ease: "power3.in" }, 6.25);
+      // Dot 2 → 3
+      tl.to("#dot2", { width: 8, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.22)", duration: 0.2 }, 6.25);
+      tl.to("#dot3", { width: 44, borderRadius: "4px", backgroundColor: "#00A36C", duration: 0.2 }, 6.25);
+      tl.to("#s2-ctr", { innerText: "3 / 4", duration: 0 }, 6.25);
+
+      // Card 3 in (6.53s) → out (8.05s) — badge scanner highlight
+      tl.to("#fc3", { x: 0, opacity: 1, duration: 0.38, ease: "expo.out" }, 6.53);
+      tl.to("#fc3", { scale: 1.03, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 7.1);
+      tl.to("#fc3", { x: -1100, opacity: 0, duration: 0.28, ease: "power3.in" }, 7.9);
+      // Dot 3 → 4
+      tl.to("#dot3", { width: 8, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.22)", duration: 0.2 }, 7.9);
+      tl.to("#dot4", { width: 44, borderRadius: "4px", backgroundColor: "#00A36C", duration: 0.2 }, 7.9);
+      tl.to("#s2-ctr", { innerText: "4 / 4", duration: 0 }, 7.9);
+
+      // Card 4 in (8.18s) → stays until scene ends at 10s
+      tl.to("#fc4", { x: 0, opacity: 1, duration: 0.38, ease: "expo.out" }, 8.18);
+      // Scene 2 outro
+      tl.to(["#s2-hed","#s2-dots","#s2-ctr"], { opacity: 0, duration: 0.25 }, 9.65);
+
+      // ── SCENE 3: PAYOFF (10–13s) ───────────────────────────────────────────
+      tl.to(["#s3-lt","#s3-lb"], { scaleX: 1, duration: 0.55, ease: "expo.out", stagger: 0.1 }, 10.1);
+      tl.from("#s3-l1",  { opacity: 0, y: 65, duration: 0.5, ease: "expo.out" }, 10.2);
+      tl.from("#s3-l2",  { opacity: 0, y: 65, duration: 0.5, ease: "expo.out" }, 10.5);
+      tl.to("#s3-rule",  { scaleX: 1, duration: 0.5, ease: "power3.out" }, 10.85);
+      // Gentle breathe
+      tl.to(["#s3-l1","#s3-l2"],
+            { scale: 1.025, duration: 0.9, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.12 }, 11.4);
+
+      // ── SCENE 4: CTA (13–15s) ─────────────────────────────────────────────
+      tl.from("#s4-glow",  { opacity: 0, scale: 0.85, duration: 0.6, ease: "sine.out" }, 13.1);
+      tl.to(["#s4-ll","#s4-lr"], { opacity: 1, duration: 0.35, ease: "sine.out" }, 13.1);
+      tl.from("#s4-logo",  { opacity: 0, scale: 0.88, duration: 0.65, ease: "expo.out" }, 13.25);
+      tl.from("#s4-free",  { opacity: 0, y: 22, duration: 0.45, ease: "sine.out" }, 13.75);
+      tl.from("#s4-url",   { opacity: 0, y: 22, duration: 0.45, ease: "sine.out" }, 13.95);
+      tl.to("#s4-glow",    { scale: 1.08, duration: 1.8, ease: "sine.inOut" }, 13.4);
+
+      window.__timelines["callcards-15s"] = tl;
+    </script>
+  </body>
+</html>

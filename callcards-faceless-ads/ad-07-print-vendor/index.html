@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Call Cards — Faceless 07</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;font-family:'Inter',system-ui,sans-serif}
+.clip{position:absolute;top:0;left:0;width:1080px;height:1920px}
+#hook-wrap{display:flex;align-items:center;justify-content:center;height:100%}
+#ht{font-size:70px;font-weight:800;line-height:1.15;text-align:center;color:#fff;padding:0 80px}
+#ht em{font-style:normal;color:#00b37d}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px;padding:0 64px;opacity:0}
+.slabel{font-size:30px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#00b37d}
+#s1{background:#0a0a0a}
+.scan-frame{width:420px;height:420px;border:3px solid rgba(255,255,255,.1);border-radius:28px;position:relative;overflow:hidden}
+.sc{position:absolute;width:36px;height:36px;border-color:#00b37d;border-style:solid}
+.sc.tl{top:20px;left:20px;border-width:4px 0 0 4px;border-radius:8px 0 0 0}
+.sc.tr{top:20px;right:20px;border-width:4px 4px 0 0;border-radius:0 8px 0 0}
+.sc.bl{bottom:20px;left:20px;border-width:0 0 4px 4px;border-radius:0 0 0 8px}
+.sc.br{bottom:20px;right:20px;border-width:0 4px 4px 0;border-radius:0 0 8px 0}
+#scan-line{position:absolute;left:20px;width:380px;height:3px;background:linear-gradient(90deg,transparent,#00b37d,transparent);top:50%}
+.scan-cap{font-size:38px;font-weight:600;color:#fff;text-align:center}
+#s2{background:#f5f5f1}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:720px}
+.cat-card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.07)}
+.cat-thumb{width:100%;height:128px;background:#e8e8e4;border-radius:10px;margin-bottom:16px}
+.cat-name{font-size:26px;font-weight:700;color:#111}
+.cat-link{font-size:20px;color:#00b37d;font-weight:600;margin-top:6px}
+.cat-cap{font-size:38px;font-weight:600;color:#111;text-align:center}
+#s3{background:#0a0a0a}
+.form-box{width:720px;background:#141414;border-radius:24px;overflow:hidden}
+.frow{display:flex;align-items:center;padding:22px 28px;border-bottom:1px solid #1e1e1e}
+.frow:last-child{border-bottom:none}
+.flabel{font-size:24px;color:rgba(255,255,255,.45);width:180px;flex-shrink:0}
+.fval{font-size:26px;color:#fff;font-weight:600;flex:1}
+.fcheck{font-size:26px;color:#00b37d;font-weight:700}
+.form-cap{font-size:38px;font-weight:600;color:#fff;text-align:center}
+#s4{background:#f5f5f1}
+.dash-box{width:720px;background:#fff;border-radius:24px;box-shadow:0 2px 20px rgba(0,0,0,.08);overflow:hidden}
+.dash-top{padding:24px 28px;border-bottom:1px solid #f0f0ec;font-size:26px;font-weight:700;color:#111}
+.drow{display:flex;align-items:center;gap:16px;padding:18px 28px;border-bottom:1px solid #f0f0ec}
+.drow:last-of-type{border-bottom:none}
+.dav{width:44px;height:44px;border-radius:50%;background:#e8e8e4;flex-shrink:0}
+.dinfo{flex:1}
+.dname{font-size:24px;font-weight:700;color:#111}
+.dco{font-size:20px;color:#666}
+.dtime{font-size:18px;color:#00b37d;font-weight:600}
+.dexport{padding:20px 28px}
+.dexport-btn{background:#00b37d;color:#fff;font-size:26px;font-weight:700;padding:16px 28px;border-radius:10px;text-align:center}
+.dash-cap{font-size:38px;font-weight:600;color:#111;text-align:center}
+#cta-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;height:100%;opacity:0}
+.cta-text{font-size:58px;font-weight:700;color:#fff;text-align:center;max-width:860px;line-height:1.2}
+#cta-pill{background:#00b37d;color:#fff;font-size:50px;font-weight:800;padding:30px 80px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="clip" data-start="0" data-duration="6" data-track-index="0" style="background:#0a0a0a"></div>
+<div class="clip" data-start="27" data-duration="3" data-track-index="0" style="background:#0a0a0a"></div>
+<div id="hook-wrap" class="clip" data-start="0" data-duration="6" data-track-index="1">
+  <p id="ht">Your print vendor gets paid whether you close leads or not. <em>We don't.</em></p>
+</div>
+<div id="s1" class="screen clip" data-start="6" data-duration="5" data-track-index="1">
+  <div class="slabel">Badge Scanner</div>
+  <div class="scan-frame">
+    <div class="sc tl"></div><div class="sc tr"></div><div class="sc bl"></div><div class="sc br"></div>
+    <div id="scan-line"></div>
+  </div>
+  <div class="scan-cap">Tap. Lead captured.</div>
+</div>
+<div id="s2" class="screen clip" data-start="11" data-duration="5" data-track-index="1">
+  <div class="slabel">Digital Catalog</div>
+  <div class="cat-grid">
+    <div class="cat-card"><div class="cat-thumb"></div><div class="cat-name">Product A</div><div class="cat-link">View details →</div></div>
+    <div class="cat-card"><div class="cat-thumb"></div><div class="cat-name">Product B</div><div class="cat-link">View details →</div></div>
+    <div class="cat-card"><div class="cat-thumb"></div><div class="cat-name">Product C</div><div class="cat-link">View details →</div></div>
+    <div class="cat-card"><div class="cat-thumb"></div><div class="cat-name">Product D</div><div class="cat-link">View details →</div></div>
+  </div>
+  <div class="cat-cap">Always up to date.</div>
+</div>
+<div id="s3" class="screen clip" data-start="16" data-duration="5" data-track-index="1">
+  <div class="slabel">Lead Form</div>
+  <div class="form-box">
+    <div class="frow"><span class="flabel">Name</span><span class="fval">Rahul Sharma</span><span class="fcheck">✓</span></div>
+    <div class="frow"><span class="flabel">Company</span><span class="fval">Sharma Exports</span><span class="fcheck">✓</span></div>
+    <div class="frow"><span class="flabel">Phone</span><span class="fval">+91 98765 43210</span><span class="fcheck">✓</span></div>
+    <div class="frow"><span class="flabel">Interest</span><span class="fval">Bulk Order</span><span class="fcheck">✓</span></div>
+  </div>
+  <div class="form-cap">Zero manual entry.</div>
+</div>
+<div id="s4" class="screen clip" data-start="21" data-duration="6" data-track-index="1">
+  <div class="slabel">Dashboard</div>
+  <div class="dash-box">
+    <div class="dash-top">Today's Leads — 12</div>
+    <div class="drow"><div class="dav"></div><div class="dinfo"><div class="dname">Rahul Sharma</div><div class="dco">Sharma Exports</div></div><div class="dtime">2m ago</div></div>
+    <div class="drow"><div class="dav"></div><div class="dinfo"><div class="dname">Priya Mehta</div><div class="dco">Mehta Industries</div></div><div class="dtime">14m ago</div></div>
+    <div class="drow"><div class="dav"></div><div class="dinfo"><div class="dname">Arjun Patel</div><div class="dco">Patel Traders</div></div><div class="dtime">31m ago</div></div>
+    <div class="dexport"><div class="dexport-btn">Export to CRM →</div></div>
+  </div>
+  <div class="dash-cap">Every lead. Nothing lost.</div>
+</div>
+<div class="clip" data-start="27" data-duration="3" data-track-index="1">
+  <div id="cta-wrap">
+    <div class="cta-text">Get your free digital card.</div>
+    <div id="cta-pill">call.cards</div>
+  </div>
+</div>
+<audio class="clip" data-start="0" data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
+<audio id="music" class="clip" data-start="0" data-duration="30" data-track-index="3" src="../shared/music.mp3" loop></audio>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js"></script>
+<script>
+window.__timelines=window.__timelines||{};
+gsap.set('#ht',{opacity:0,y:36});
+gsap.set(['#s1','#s2','#s3','#s4'],{opacity:0});
+gsap.set('#cta-wrap',{opacity:0});
+gsap.set(document.getElementById('music'),{volume:0.13});
+const tl=gsap.timeline({paused:true});
+tl.to('#ht',{opacity:1,y:0,duration:0.55,ease:'power3.out'},0.3);
+tl.to('#s1',{opacity:1,duration:0.4,ease:'power2.out'},6.3);
+tl.fromTo('#scan-line',{y:-168},{y:168,duration:2.2,ease:'sine.inOut',repeat:1,yoyo:true},6.6);
+tl.to('#s2',{opacity:1,duration:0.4,ease:'power2.out'},11.3);
+tl.to('#s3',{opacity:1,duration:0.4,ease:'power2.out'},16.3);
+tl.to('#s4',{opacity:1,duration:0.4,ease:'power2.out'},21.3);
+tl.to('#cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},27.2);
+window.__timelines['callcards-faceless-ad-07']=tl;
+</script>
+</body>
+</html>

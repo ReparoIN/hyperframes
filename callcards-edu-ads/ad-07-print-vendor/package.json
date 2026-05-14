@@ -1,0 +1,10 @@
+{
+  "name": "callcards-edu-ad-07",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "hyperframes dev",
+    "check": "hyperframes check",
+    "render": "hyperframes render",
+    "tts": "hyperframes tts voiceover-script.txt --out assets/voiceover.mp3"
+  }
+}

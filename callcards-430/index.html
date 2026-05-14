@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      #root { position: relative; width: 1920px; height: 1080px; }
+
+      .clip {
+        position: absolute;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+
+      .eyebrow {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: #008A5E;
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #006644 0%, #00A36C 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .caption {
+        position: absolute;
+        bottom: 48px;
+        left: 80px;
+        right: 80px;
+        background: rgba(10, 15, 12, 0.86);
+        border-radius: 14px;
+        padding: 20px 32px;
+        font-size: 26px;
+        font-weight: 500;
+        color: #FFFFFF;
+        line-height: 1.4;
+        border: 1px solid rgba(0, 163, 108, 0.28);
+      }
+
+      /* ── Feature scene layout ───────────────────────────────── */
+      .fp-left {
+        position: absolute;
+        left: 0; top: 0;
+        width: 520px; height: 1080px;
+        background: rgba(0, 138, 94, 0.045);
+        border-right: 1px solid rgba(0, 138, 94, 0.18);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 56px;
+        text-align: center;
+        gap: 24px;
+      }
+
+      .fp-icon {
+        font-size: 96px;
+        line-height: 1;
+      }
+
+      .fp-num {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: rgba(0, 138, 94, 0.65);
+      }
+
+      .fp-name {
+        font-size: 52px;
+        font-weight: 900;
+        color: #0E1A14;
+        line-height: 1.05;
+        letter-spacing: -1.5px;
+      }
+
+      .fp-desc {
+        font-size: 22px;
+        font-weight: 400;
+        color: #607A6E;
+        line-height: 1.5;
+      }
+
+      /* Sub-point cards (right panel) */
+      .sp-card {
+        position: absolute;
+        left: 0; right: 0;
+        background: #FFFFFF;
+        border: 1.5px solid rgba(0, 138, 94, 0.15);
+        border-radius: 18px;
+        padding: 32px 40px;
+        box-shadow: 0 3px 18px rgba(0, 138, 94, 0.07);
+        height: 272px;
+      }
+
+      .sp-num {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #008A5E;
+        margin-bottom: 12px;
+      }
+
+      .sp-title {
+        font-size: 38px;
+        font-weight: 800;
+        color: #0E1A14;
+        letter-spacing: -1px;
+        line-height: 1.1;
+        margin-bottom: 12px;
+      }
+
+      .sp-body {
+        font-size: 23px;
+        font-weight: 400;
+        color: #607A6E;
+        line-height: 1.45;
+      }
+
+      /* Pain rows */
+      .pain-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+      }
+
+      .pain-x {
+        width: 48px; height: 48px;
+        border-radius: 12px;
+        background: rgba(200, 40, 40, 0.10);
+        border: 2px solid rgba(200, 40, 40, 0.28);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; color: #C83232; font-weight: 900;
+        flex-shrink: 0; margin-top: 3px;
+      }
+
+      /* Feature grid tiles (solution scene) */
+      .feat-tile {
+        background: #FFFFFF;
+        border: 1.5px solid rgba(0, 138, 94, 0.16);
+        border-radius: 20px;
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        box-shadow: 0 3px 16px rgba(0, 138, 94, 0.07);
+        width: 380px;
+      }
+
+      /* Outcome stat cards */
+      .oc-card {
+        background: #FFFFFF;
+        border: 1.5px solid rgba(0, 138, 94, 0.16);
+        border-radius: 20px;
+        padding: 36px 40px;
+        box-shadow: 0 3px 18px rgba(0, 138, 94, 0.07);
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="callcards-430"
+      data-start="0"
+      data-duration="270"
+      data-width="1920"
+      data-height="1080"
+    >
+
+      <!-- ═══════════════════════════════════════════════════════════
+           TRACK 0 — BACKGROUNDS
+      ═══════════════════════════════════════════════════════════ -->
+
+      <div id="bg-dark" class="clip" data-start="0" data-duration="15" data-track-index="0"
+           style="background:#0A0F0C;">
+        <div style="position:absolute;left:50%;bottom:-220px;transform:translateX(-50%);
+             width:1200px;height:800px;border-radius:50%;
+             background:radial-gradient(ellipse,rgba(0,163,108,0.18) 0%,transparent 65%);"></div>
+        <div style="position:absolute;inset:0;opacity:0.10;
+             background-image:radial-gradient(circle,rgba(0,163,108,0.4) 1px,transparent 1px);
+             background-size:64px 64px;"></div>
+      </div>
+
+      <div id="bg-light" class="clip" data-start="15" data-duration="255" data-track-index="0"
+           style="background:#F4F8F6;">
+        <div style="position:absolute;left:-180px;top:-100px;width:1000px;height:800px;
+             border-radius:50%;background:radial-gradient(ellipse,rgba(0,138,94,0.08) 0%,transparent 70%);"></div>
+        <div style="position:absolute;right:-180px;bottom:-100px;width:900px;height:700px;
+             border-radius:50%;background:radial-gradient(ellipse,rgba(0,163,108,0.05) 0%,transparent 70%);"></div>
+        <div style="position:absolute;inset:0;opacity:0.16;
+             background-image:radial-gradient(circle,rgba(0,138,94,0.2) 1px,transparent 1px);
+             background-size:64px 64px;"></div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 1 — HOOK  (0–15s)
+           VO: "Seventy-two percent. That's how many tradeshow leads just disappear..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s1" class="clip" data-start="0" data-duration="15" data-track-index="1">
+
+        <div id="s1-bar" style="position:absolute;left:0;top:0;width:5px;height:1080px;
+             background:linear-gradient(180deg,transparent,#008A5E 25%,#00A36C 75%,transparent);"></div>
+
+        <div id="s1-ghost" style="position:absolute;right:-80px;top:-20px;
+             font-size:600px;font-weight:900;color:rgba(0,163,108,0.05);
+             line-height:1;letter-spacing:-24px;pointer-events:none;user-select:none;">72</div>
+
+        <div style="position:absolute;left:140px;right:140px;top:50%;transform:translateY(-52%);">
+          <div id="s1-eyebrow" class="eyebrow" style="color:#00A36C;margin-bottom:40px;">Tradeshow Reality</div>
+
+          <div style="display:flex;align-items:flex-end;gap:32px;margin-bottom:24px;">
+            <div id="s1-stat" style="font-size:260px;font-weight:900;line-height:0.88;
+                 letter-spacing:-10px;color:#00A36C;">72%</div>
+            <div id="s1-label" style="padding-bottom:28px;">
+              <div style="font-size:40px;font-weight:400;color:rgba(255,255,255,0.75);line-height:1.45;">
+                of tradeshow leads<br>are <strong style="color:#FFFFFF;font-weight:700;">never</strong><br>followed up on.
+              </div>
+            </div>
+          </div>
+
+          <div id="s1-rule" style="width:320px;height:4px;border-radius:2px;
+               background:linear-gradient(90deg,#00A36C,transparent);margin-bottom:36px;"></div>
+
+          <div id="s1-context" style="font-size:28px;font-weight:400;
+               color:rgba(255,255,255,0.45);letter-spacing:0.5px;">
+            Source: Exhibit Surveys Inc. &nbsp;·&nbsp; Indian Tradeshow Industry Report 2025
+          </div>
+        </div>
+
+        <div id="s1-cap" class="caption">
+          Seventy-two percent. That's how many tradeshow leads just disappear. You spend lakhs, have a hundred great conversations — and Monday, it's all gone.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 2 — PROBLEM  (15–45s)
+           VO: "Here's the reality of tradeshows today in India..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s2" class="clip" data-start="15" data-duration="30" data-track-index="1">
+
+        <div id="s2-bar" style="position:absolute;left:0;top:0;width:5px;height:1080px;
+             background:linear-gradient(180deg,transparent,#C83232 35%,rgba(200,50,50,0.4) 100%);"></div>
+
+        <div style="position:absolute;left:140px;right:140px;top:90px;">
+          <div id="s2-eyebrow" class="eyebrow" style="color:#C83232;margin-bottom:24px;">The Problem</div>
+
+          <div id="s2-hed" style="font-size:86px;font-weight:900;line-height:1.02;
+               letter-spacing:-3px;color:#0E1A14;margin-bottom:28px;">The old way is broken.</div>
+
+          <div id="s2-rule" style="width:380px;height:3px;border-radius:2px;
+               background:linear-gradient(90deg,#C83232,transparent);margin-bottom:48px;"></div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px 80px;">
+            <div id="s2-p1" class="pain-row">
+              <div class="pain-x">✕</div>
+              <div>
+                <div style="font-size:34px;font-weight:700;color:#0E1A14;line-height:1.2;">Cards get lost</div>
+                <div style="font-size:22px;color:#607A6E;margin-top:5px;">Paper forgotten before the show ends</div>
+              </div>
+            </div>
+            <div id="s2-p2" class="pain-row">
+              <div class="pain-x">✕</div>
+              <div>
+                <div style="font-size:34px;font-weight:700;color:#0E1A14;line-height:1.2;">Badge scans take days</div>
+                <div style="font-size:22px;color:#607A6E;margin-top:5px;">Data arrives after the lead is already cold</div>
+              </div>
+            </div>
+            <div id="s2-p3" class="pain-row">
+              <div class="pain-x">✕</div>
+              <div>
+                <div style="font-size:34px;font-weight:700;color:#0E1A14;line-height:1.2;">No system, no tags</div>
+                <div style="font-size:22px;color:#607A6E;margin-top:5px;">No notes, no next steps — just a pile of cards</div>
+              </div>
+            </div>
+            <div id="s2-p4" class="pain-row">
+              <div class="pain-x">✕</div>
+              <div>
+                <div style="font-size:34px;font-weight:700;color:#0E1A14;line-height:1.2;">Organizers flying blind</div>
+                <div style="font-size:22px;color:#607A6E;margin-top:5px;">No real data on what worked at the show</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="s2-closer" style="margin-top:48px;font-size:42px;font-weight:800;
+               color:#0E1A14;letter-spacing:-1px;">
+            There has to be a better way.
+          </div>
+        </div>
+
+        <div id="s2-cap" class="caption">
+          Paper cards lost. Badge data arrives days late. No system, no tags, no follow-up. For organizers — no data at all. There has to be a better way.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 3 — SOLUTION INTRO  (45–75s)
+           VO: "Introducing callcard — the digital tradeshow toolkit..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s3" class="clip" data-start="45" data-duration="30" data-track-index="1">
+
+        <div id="s3-glow" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+             width:1600px;height:900px;border-radius:50%;
+             background:radial-gradient(ellipse,rgba(0,138,94,0.13) 0%,rgba(0,163,108,0.05) 50%,transparent 70%);"></div>
+
+        <div id="s3-lt" style="position:absolute;top:0;left:0;width:1920px;height:4px;
+             background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);"></div>
+        <div id="s3-lb" style="position:absolute;bottom:0;left:0;width:1920px;height:4px;
+             background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);"></div>
+
+        <div style="position:absolute;left:0;right:0;top:80px;display:flex;
+             flex-direction:column;align-items:center;text-align:center;gap:0;">
+
+          <div id="s3-eyebrow" class="eyebrow" style="letter-spacing:8px;margin-bottom:20px;">Introducing</div>
+
+          <div id="s3-logo" style="font-size:120px;font-weight:900;line-height:1;
+               letter-spacing:-4px;white-space:nowrap;margin-bottom:16px;">
+            <span style="color:#0E1A14;">call</span><span class="gradient-text">.cards</span>
+          </div>
+
+          <div id="s3-rule" style="width:480px;height:3px;border-radius:2px;margin-bottom:20px;
+               background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);"></div>
+
+          <div id="s3-tag" style="font-size:32px;font-weight:400;color:#607A6E;
+               margin-bottom:56px;">The digital tradeshow toolkit for Indian exhibitors</div>
+
+          <!-- 4 feature tiles in a row -->
+          <div style="display:flex;gap:24px;justify-content:center;">
+            <div id="s3-t1" class="feat-tile">
+              <div style="font-size:56px;">&#128199;</div>
+              <div style="font-size:26px;font-weight:800;color:#0E1A14;letter-spacing:-0.5px;">Digital<br>Cards</div>
+            </div>
+            <div id="s3-t2" class="feat-tile">
+              <div style="font-size:56px;">&#128203;</div>
+              <div style="font-size:26px;font-weight:800;color:#0E1A14;letter-spacing:-0.5px;">Product<br>Catalogs</div>
+            </div>
+            <div id="s3-t3" class="feat-tile" style="border-color:rgba(0,138,94,0.35);background:rgba(0,138,94,0.05);">
+              <div style="font-size:56px;">&#128248;</div>
+              <div style="font-size:26px;font-weight:800;color:#006644;letter-spacing:-0.5px;">Badge<br>Scanner</div>
+            </div>
+            <div id="s3-t4" class="feat-tile">
+              <div style="font-size:56px;">&#128221;</div>
+              <div style="font-size:26px;font-weight:800;color:#0E1A14;letter-spacing:-0.5px;">Lead<br>Capture</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="s3-cap" class="caption">
+          callcard replaces the whole paper stack — business cards, catalogs, badge scanners, lead forms — with one app.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 4 — FEATURE 1: DIGITAL CARDS  (75–115s)
+           VO: "Feature one — Digital Business Cards..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s4" class="clip" data-start="75" data-duration="40" data-track-index="1">
+
+        <!-- Left identity panel -->
+        <div id="s4-left" class="fp-left">
+          <div class="fp-num">Feature 01</div>
+          <div class="fp-icon">&#128199;</div>
+          <div class="fp-name">Digital<br>Business<br>Cards</div>
+          <div class="fp-desc">Your live digital identity<br>at every show</div>
+        </div>
+
+        <!-- Separator -->
+        <div id="s4-sep" style="position:absolute;left:520px;top:0;width:1px;height:1080px;
+             background:linear-gradient(180deg,transparent,rgba(0,138,94,0.28) 20%,rgba(0,138,94,0.28) 80%,transparent);"></div>
+
+        <!-- Right sub-points -->
+        <div style="position:absolute;left:580px;right:80px;top:80px;bottom:80px;">
+
+          <div id="s4-rhed" style="margin-bottom:32px;">
+            <div class="eyebrow" style="margin-bottom:10px;">How it works</div>
+            <div style="font-size:44px;font-weight:800;color:#0E1A14;letter-spacing:-1.5px;line-height:1.05;">Share your profile. Instantly.</div>
+          </div>
+
+          <div id="s4-sp1" class="sp-card" style="top:120px;">
+            <div class="sp-num">Point 01</div>
+            <div class="sp-title">Share in under 3 seconds</div>
+            <div class="sp-body">QR code, NFC tap, or direct link — no app required on their end. Visitor saves your contact instantly.</div>
+          </div>
+
+          <div id="s4-sp2" class="sp-card" style="top:416px;">
+            <div class="sp-num">Point 02</div>
+            <div class="sp-title">Everything in one place</div>
+            <div class="sp-body">Name, title, company, phone, email, social links, website — all on one shareable screen. No printing, no running out.</div>
+          </div>
+
+          <div id="s4-sp3" class="sp-card" style="top:712px;">
+            <div class="sp-num">Point 03</div>
+            <div class="sp-title">Always up to date</div>
+            <div class="sp-body">Update once — everyone who scanned you already has the latest info. Your card is always live.</div>
+          </div>
+        </div>
+
+        <div id="s4-cap" class="caption">
+          Your callcard profile is your live digital identity. Share in under 3 seconds. No app required for visitors. Update once — always current.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 5 — FEATURE 2: PRODUCT CATALOGS  (115–150s)
+           VO: "Feature two — Digital Product Catalogs..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s5" class="clip" data-start="115" data-duration="35" data-track-index="1">
+
+        <div id="s5-left" class="fp-left">
+          <div class="fp-num">Feature 02</div>
+          <div class="fp-icon">&#128203;</div>
+          <div class="fp-name">Product<br>Catalogs</div>
+          <div class="fp-desc">Replace printed brochures<br>with a live digital catalog</div>
+        </div>
+
+        <div id="s5-sep" style="position:absolute;left:520px;top:0;width:1px;height:1080px;
+             background:linear-gradient(180deg,transparent,rgba(0,138,94,0.28) 20%,rgba(0,138,94,0.28) 80%,transparent);"></div>
+
+        <div style="position:absolute;left:580px;right:80px;top:80px;bottom:80px;">
+
+          <div id="s5-rhed" style="margin-bottom:32px;">
+            <div class="eyebrow" style="margin-bottom:10px;">How it works</div>
+            <div style="font-size:44px;font-weight:800;color:#0E1A14;letter-spacing:-1.5px;line-height:1.05;">Your catalog. Their phone. Instant.</div>
+          </div>
+
+          <div id="s5-sp1" class="sp-card" style="top:120px;">
+            <div class="sp-num">Point 01</div>
+            <div class="sp-title">Full product line on their phone</div>
+            <div class="sp-body">Images, specs, pricing, videos — all inside your profile. No printed brochures to lose or discard.</div>
+          </div>
+
+          <div id="s5-sp2" class="sp-card" style="top:416px;">
+            <div class="sp-num">Point 02</div>
+            <div class="sp-title">"Request Quote" in-catalog</div>
+            <div class="sp-body">Visitor taps a product, fills a quick form — their details arrive at your dashboard instantly. You know exactly what they wanted.</div>
+          </div>
+
+          <div id="s5-sp3" class="sp-card" style="top:712px;">
+            <div class="sp-num">Point 03</div>
+            <div class="sp-title">Real product analytics</div>
+            <div class="sp-body">Which items got the most views. Which ones drove quote requests. Real data from your booth, in real time.</div>
+          </div>
+        </div>
+
+        <div id="s5-cap" class="caption">
+          Full catalog on their phone. Visitors tap "Request Quote" in-catalog — their details arrive instantly. You see which products drove interest.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 6 — FEATURE 3: BADGE SCANNER  (150–180s)
+           VO: "Feature three — Badge Scanner..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s6" class="clip" data-start="150" data-duration="30" data-track-index="1">
+
+        <div id="s6-left" class="fp-left" style="background:rgba(0,138,94,0.07);">
+          <div class="fp-num">Feature 03</div>
+          <div class="fp-icon">&#128248;</div>
+          <div class="fp-name" style="color:#006644;">Badge<br>Scanner</div>
+          <div class="fp-desc">The game-changer.<br>Every badge, captured instantly.</div>
+        </div>
+
+        <div id="s6-sep" style="position:absolute;left:520px;top:0;width:1px;height:1080px;
+             background:linear-gradient(180deg,transparent,rgba(0,138,94,0.4) 20%,rgba(0,138,94,0.4) 80%,transparent);"></div>
+
+        <div style="position:absolute;left:580px;right:80px;top:80px;bottom:80px;">
+
+          <div id="s6-rhed" style="margin-bottom:32px;">
+            <div class="eyebrow" style="margin-bottom:10px;">How it works</div>
+            <div style="font-size:44px;font-weight:800;color:#0E1A14;letter-spacing:-1.5px;line-height:1.05;">Scan. Note. Sync. Done.</div>
+          </div>
+
+          <div id="s6-sp1" class="sp-card" style="top:120px;border-color:rgba(0,138,94,0.3);">
+            <div class="sp-num">Point 01</div>
+            <div class="sp-title">Instant badge scan</div>
+            <div class="sp-body">Hold phone to any visitor badge QR. Name, company, designation, email — pulled in automatically in one tap.</div>
+          </div>
+
+          <div id="s6-sp2" class="sp-card" style="top:416px;">
+            <div class="sp-num">Point 02</div>
+            <div class="sp-title">Notes and tags on the spot</div>
+            <div class="sp-body">What they wanted, their timeline, decision-maker status. Tag: Hot / Warm / Cold. All added before they leave your booth.</div>
+          </div>
+
+          <div id="s6-sp3" class="sp-card" style="top:712px;">
+            <div class="sp-num">Point 03</div>
+            <div class="sp-title">Synced, not re-entered</div>
+            <div class="sp-body">Real-time dashboard from the show floor. No spreadsheets. No midnight data entry. Every scan is ready for follow-up immediately.</div>
+          </div>
+        </div>
+
+        <div id="s6-cap" class="caption">
+          Point at any badge — name, company, email saved instantly. Add a note. Tag it. Synced before they leave your booth. No re-entry ever.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 7 — FEATURE 4: LEAD CAPTURE FORMS  (180–210s)
+           VO: "Feature four — Lead Capture Forms..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s7" class="clip" data-start="180" data-duration="30" data-track-index="1">
+
+        <div id="s7-left" class="fp-left">
+          <div class="fp-num">Feature 04</div>
+          <div class="fp-icon">&#128221;</div>
+          <div class="fp-name">Lead<br>Capture<br>Forms</div>
+          <div class="fp-desc">Branded tablet form.<br>Visitors fill it themselves.</div>
+        </div>
+
+        <div id="s7-sep" style="position:absolute;left:520px;top:0;width:1px;height:1080px;
+             background:linear-gradient(180deg,transparent,rgba(0,138,94,0.28) 20%,rgba(0,138,94,0.28) 80%,transparent);"></div>
+
+        <div style="position:absolute;left:580px;right:80px;top:80px;bottom:80px;">
+
+          <div id="s7-rhed" style="margin-bottom:32px;">
+            <div class="eyebrow" style="margin-bottom:10px;">How it works</div>
+            <div style="font-size:44px;font-weight:800;color:#0E1A14;letter-spacing:-1.5px;line-height:1.05;">No clipboard. No manual entry.</div>
+          </div>
+
+          <div id="s7-sp1" class="sp-card" style="top:120px;">
+            <div class="sp-num">Point 01</div>
+            <div class="sp-title">Branded tablet at your booth</div>
+            <div class="sp-body">Your logo, custom fields, your questions. Visitors fill it in themselves while your team talks to someone else. Never miss a walk-up.</div>
+          </div>
+
+          <div id="s7-sp2" class="sp-card" style="top:416px;">
+            <div class="sp-num">Point 02</div>
+            <div class="sp-title">Live to your dashboard</div>
+            <div class="sp-body">Every submission appears instantly. Export CSV, push to your CRM, or trigger callcard's built-in follow-up sequence automatically.</div>
+          </div>
+
+          <!-- Contrast callout -->
+          <div id="s7-contrast" style="position:absolute;top:712px;left:0;right:0;
+               background:rgba(0,138,94,0.06);border:1.5px solid rgba(0,138,94,0.22);
+               border-radius:18px;padding:32px 40px;display:flex;align-items:center;gap:60px;">
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:28px;color:#C83232;font-weight:700;margin-bottom:8px;">Before</div>
+              <div style="font-size:22px;color:#607A6E;line-height:1.4;">Messy clipboard &nbsp;&bull;&nbsp; Illegible handwriting<br>Re-entered 3 days later</div>
+            </div>
+            <div style="width:2px;height:80px;background:rgba(0,138,94,0.25);"></div>
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:28px;color:#008A5E;font-weight:700;margin-bottom:8px;">After</div>
+              <div style="font-size:22px;color:#607A6E;line-height:1.4;">Clean digital form &nbsp;&bull;&nbsp; Instant sync<br>CRM-ready before you leave the floor</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="s7-cap" class="caption">
+          Branded tablet form — visitors fill it themselves. Every submission syncs instantly to your dashboard. Export CSV or push to CRM automatically.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 8 — OUTCOME  (210–255s)
+           VO: "Here's what exhibitors on callcard are walking away with..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s8" class="clip" data-start="210" data-duration="45" data-track-index="1">
+
+        <div style="position:absolute;left:140px;right:140px;top:72px;">
+          <div id="s8-eyebrow" class="eyebrow" style="margin-bottom:18px;">The Results</div>
+          <div id="s8-hed" style="font-size:72px;font-weight:900;line-height:1.02;
+               letter-spacing:-2.5px;color:#0E1A14;margin-bottom:28px;">Walk away with every lead.</div>
+          <div id="s8-rule" style="width:400px;height:3px;border-radius:2px;
+               background:linear-gradient(90deg,#008A5E,transparent);margin-bottom:44px;"></div>
+
+          <!-- 3 stat cards in a row -->
+          <div style="display:flex;gap:24px;margin-bottom:32px;">
+            <div id="s8-c1" class="oc-card">
+              <div style="font-size:96px;font-weight:900;line-height:0.9;
+                   letter-spacing:-3px;color:#008A5E;">3&times;</div>
+              <div style="font-size:26px;font-weight:500;color:#607A6E;margin-top:14px;line-height:1.35;">
+                more leads captured<br>per show
+              </div>
+            </div>
+            <div id="s8-c2" class="oc-card">
+              <div style="font-size:60px;font-weight:900;line-height:0.9;
+                   letter-spacing:-2px;color:#008A5E;">Same day</div>
+              <div style="font-size:26px;font-weight:500;color:#607A6E;margin-top:14px;line-height:1.35;">
+                follow-up sent<br>from the show floor
+              </div>
+            </div>
+            <div id="s8-c3" class="oc-card">
+              <div style="font-size:96px;font-weight:900;line-height:0.9;
+                   letter-spacing:-3px;color:#008A5E;">0</div>
+              <div style="font-size:26px;font-weight:500;color:#607A6E;margin-top:14px;line-height:1.35;">
+                manual data entry.<br>Zero spreadsheets.
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial -->
+          <div id="s8-quote" style="background:#FFFFFF;border:1.5px solid rgba(0,138,94,0.18);
+               border-radius:18px;padding:32px 44px;display:flex;align-items:center;gap:36px;
+               box-shadow:0 3px 18px rgba(0,138,94,0.07);">
+            <div style="font-size:64px;color:#00A36C;line-height:1;flex-shrink:0;">&ldquo;</div>
+            <div>
+              <div style="font-size:28px;font-weight:500;color:#0E1A14;line-height:1.5;margin-bottom:12px;">
+                We used to follow up on maybe twenty leads after a show.<br>
+                With callcard, we captured 140 qualified contacts and followed up on all of them by end of week.
+              </div>
+              <div style="font-size:20px;color:#607A6E;font-weight:600;letter-spacing:1px;">
+                EXHIBITOR &nbsp;&mdash;&nbsp; MUMBAI MANUFACTURING EXPO 2025
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="s8-cap" class="caption">
+          3&times; more leads. Follow-up same day. Zero manual entry. One exhibitor: 140 qualified contacts captured and followed up by end of week.
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCENE 9 — CTA  (255–270s)
+           VO: "callcard is self-serve, free to start..."
+      ═══════════════════════════════════════════════════════════ -->
+      <div id="s9" class="clip" data-start="255" data-duration="15" data-track-index="1">
+
+        <div id="s9-glow" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+             width:1800px;height:900px;border-radius:50%;
+             background:radial-gradient(ellipse,rgba(0,138,94,0.15) 0%,rgba(0,163,108,0.06) 50%,transparent 70%);"></div>
+
+        <div id="s9-lt" style="position:absolute;top:0;left:0;width:1920px;height:5px;
+             background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);"></div>
+        <div id="s9-lb" style="position:absolute;bottom:0;left:0;width:1920px;height:5px;
+             background:linear-gradient(90deg,transparent,#006644 30%,#00A36C 70%,transparent);"></div>
+
+        <div id="s9-ll" style="position:absolute;left:0;top:0;width:5px;height:1080px;
+             background:linear-gradient(180deg,transparent,#008A5E 40%,#00A36C 60%,transparent);"></div>
+        <div id="s9-lr" style="position:absolute;right:0;top:0;width:5px;height:1080px;
+             background:linear-gradient(180deg,transparent,#00A36C 40%,#008A5E 60%,transparent);"></div>
+
+        <div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
+             display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;">
+
+          <div id="s9-logo" style="font-size:160px;font-weight:900;line-height:1;
+               letter-spacing:-6px;white-space:nowrap;">
+            <span style="color:#0E1A14;">call</span><span class="gradient-text">.cards</span>
+          </div>
+
+          <div id="s9-sub" style="font-size:38px;font-weight:400;color:#607A6E;">
+            Self-serve &nbsp;&bull;&nbsp; Free to start &nbsp;&bull;&nbsp; 10 minutes to set up
+          </div>
+
+          <div id="s9-url" style="font-size:32px;font-weight:700;letter-spacing:5px;
+               color:#008A5E;text-transform:uppercase;">CALL.CARDS</div>
+
+          <div id="s9-close" style="font-size:30px;font-weight:600;color:#0E1A14;margin-top:8px;">
+            Your next show is coming. Don't leave the leads behind.
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ═══════════════════════════════════════════════════════════
+           AUDIO  (TRACKS 2 & 3)
+      ═══════════════════════════════════════════════════════════ -->
+
+      <!-- Voiceover — generate: npx hyperframes tts voiceover-script.txt --out assets/voiceover.mp3 -->
+      <audio id="vo"
+             data-start="0" data-duration="270" data-track-index="2"
+             data-volume="1.0"
+             src="assets/voiceover.mp3"></audio>
+
+      <!-- Background music (looped, ducked under VO) -->
+      <audio id="music"
+             data-start="0" data-duration="270" data-track-index="3"
+             data-volume="0.12"
+             src="../shared/music/nastelbom-upbeat-507934.mp3"
+             loop></audio>
+
+    </div><!-- /#root -->
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ── Initial hidden states ──────────────────────────────────────────
+      gsap.set(["#s1-rule","#s2-rule","#s8-rule"],
+               { scaleX: 0, transformOrigin: "left" });
+      gsap.set(["#s3-lt","#s3-lb","#s3-rule","#s9-lt","#s9-lb"],
+               { scaleX: 0, transformOrigin: "center" });
+      gsap.set(["#s1-bar","#s2-bar"], { scaleY: 0, transformOrigin: "top" });
+      gsap.set(["#s9-ll","#s9-lr"],  { opacity: 0 });
+      // Feature sub-point cards start off-screen right
+      gsap.set(["#s4-sp1","#s4-sp2","#s4-sp3",
+                "#s5-sp1","#s5-sp2","#s5-sp3",
+                "#s6-sp1","#s6-sp2","#s6-sp3",
+                "#s7-sp1","#s7-sp2","#s7-contrast"],
+               { x: 200, opacity: 0 });
+      // Outcome cards and quote
+      gsap.set(["#s8-c1","#s8-c2","#s8-c3","#s8-quote"], { y: 40, opacity: 0 });
+
+      // ── Music ─────────────────────────────────────────────────────────────
+      tl.fromTo("#music", { volume: 0 }, { volume: 0.12, duration: 2.5, ease: "sine.out" }, 0);
+      tl.to("#music", { volume: 0, duration: 3.0, ease: "sine.in" }, 267);
+
+      // ── SCENE 1: HOOK (0–15s) ─────────────────────────────────────────────
+      tl.to("#s1-bar",     { scaleY: 1, duration: 0.7, ease: "power4.out" }, 0.1);
+      tl.from("#s1-ghost", { opacity: 0, x: 80, duration: 1.5, ease: "expo.out" }, 0.2);
+      tl.from("#s1-eyebrow",{ opacity: 0, x: -28, duration: 0.5, ease: "power3.out" }, 0.4);
+      tl.from("#s1-stat",  { opacity: 0, y: 70,  duration: 0.8, ease: "expo.out" }, 0.65);
+      tl.from("#s1-label", { opacity: 0, y: 30,  duration: 0.6, ease: "sine.out" }, 1.1);
+      tl.to("#s1-rule",    { scaleX: 1, duration: 0.6, ease: "power3.out" }, 1.3);
+      tl.from("#s1-context",{ opacity: 0, duration: 0.5, ease: "sine.out" }, 1.6);
+      tl.from("#s1-cap",   { opacity: 0, y: 18,  duration: 0.45, ease: "sine.out" }, 1.8);
+      tl.to("#s1-stat",    { scale: 1.03, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 2 }, 2.5);
+      // Resolve
+      tl.to(["#s1-eyebrow","#s1-stat","#s1-label","#s1-context"],
+            { opacity: 0, y: -24, stagger: 0.05, duration: 0.35, ease: "power3.in" }, 13.8);
+      tl.to(["#s1-bar","#s1-rule","#s1-ghost","#s1-cap"],
+            { opacity: 0, duration: 0.3, ease: "power2.in" }, 14.0);
+
+      // ── SCENE 2: PROBLEM (15–45s) ─────────────────────────────────────────
+      tl.to("#s2-bar",     { scaleY: 1, duration: 0.6, ease: "power4.out" }, 15.2);
+      tl.from("#s2-eyebrow",{ opacity: 0, x: -25, duration: 0.45, ease: "power3.out" }, 15.3);
+      tl.from("#s2-hed",   { opacity: 0, y: 50,  duration: 0.7,  ease: "expo.out" }, 15.5);
+      tl.to("#s2-rule",    { scaleX: 1, duration: 0.55, ease: "power3.out" }, 16.1);
+      tl.from("#s2-p1",    { opacity: 0, x: -44, duration: 0.5, ease: "power3.out" }, 16.5);
+      tl.from("#s2-p2",    { opacity: 0, x: -44, duration: 0.5, ease: "power3.out" }, 19.0);
+      tl.from("#s2-p3",    { opacity: 0, x: -44, duration: 0.5, ease: "power3.out" }, 21.5);
+      tl.from("#s2-p4",    { opacity: 0, x: -44, duration: 0.5, ease: "power3.out" }, 24.0);
+      tl.from("#s2-cap",   { opacity: 0, y: 18,  duration: 0.4, ease: "sine.out" }, 16.8);
+      tl.from("#s2-closer",{ opacity: 0, y: 30,  duration: 0.6, ease: "expo.out" }, 34.0);
+      // Resolve
+      tl.to(["#s2-hed","#s2-p1","#s2-p2","#s2-p3","#s2-p4","#s2-closer"],
+            { opacity: 0, y: -22, stagger: 0.04, duration: 0.32, ease: "power3.in" }, 43.5);
+      tl.to(["#s2-eyebrow","#s2-rule","#s2-bar","#s2-cap"],
+            { opacity: 0, duration: 0.28, ease: "power2.in" }, 43.7);
+
+      // ── SCENE 3: SOLUTION (45–75s) ─────────────────────────────────────────
+      tl.from("#s3-glow",  { opacity: 0, scale: 0.8, duration: 1.2, ease: "sine.out" }, 45.1);
+      tl.to(["#s3-lt","#s3-lb"], { scaleX: 1, duration: 0.75, ease: "expo.out", stagger: 0.1 }, 45.2);
+      tl.from("#s3-eyebrow",{ opacity: 0, y: 20, duration: 0.45, ease: "power3.out" }, 45.5);
+      tl.from("#s3-logo",  { opacity: 0, scale: 0.82, duration: 0.9, ease: "expo.out" }, 45.8);
+      tl.to("#s3-rule",    { scaleX: 1, duration: 0.65, ease: "power3.out" }, 46.5);
+      tl.from("#s3-tag",   { opacity: 0, y: 22, duration: 0.55, ease: "sine.out" }, 46.8);
+      tl.from("#s3-t1",    { opacity: 0, y: 40, duration: 0.5, ease: "expo.out" }, 48.5);
+      tl.from("#s3-t2",    { opacity: 0, y: 40, duration: 0.5, ease: "expo.out" }, 49.2);
+      tl.from("#s3-t3",    { opacity: 0, y: 40, duration: 0.5, ease: "expo.out" }, 49.9);
+      tl.from("#s3-t4",    { opacity: 0, y: 40, duration: 0.5, ease: "expo.out" }, 50.6);
+      tl.from("#s3-cap",   { opacity: 0, y: 18, duration: 0.4, ease: "sine.out" }, 47.2);
+      tl.to("#s3-logo",    { scale: 1.025, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 52.0);
+      tl.to("#s3-glow",    { scale: 1.08, duration: 3.0, ease: "sine.inOut", yoyo: true, repeat: 2 }, 52.5);
+      // Resolve
+      tl.to(["#s3-logo","#s3-tag","#s3-eyebrow","#s3-t1","#s3-t2","#s3-t3","#s3-t4"],
+            { opacity: 0, y: -20, stagger: 0.04, duration: 0.35, ease: "power3.in" }, 73.5);
+      tl.to(["#s3-glow","#s3-rule","#s3-lt","#s3-lb","#s3-cap"],
+            { opacity: 0, duration: 0.3, ease: "power2.in" }, 73.7);
+
+      // ── SCENE 4: DIGITAL CARDS (75–115s) ──────────────────────────────────
+      tl.from("#s4-left",  { opacity: 0, x: -40, duration: 0.6, ease: "power3.out" }, 75.2);
+      tl.from("#s4-sep",   { scaleY: 0, transformOrigin: "top", duration: 0.55, ease: "power3.out" }, 75.6);
+      tl.from("#s4-rhed",  { opacity: 0, y: -18, duration: 0.45, ease: "power3.out" }, 75.9);
+      tl.from("#s4-cap",   { opacity: 0, y: 18,  duration: 0.4,  ease: "sine.out" }, 76.2);
+      // Sub-points stagger with VO
+      tl.to("#s4-sp1",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 79.0);
+      tl.to("#s4-sp2",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 90.0);
+      tl.to("#s4-sp3",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 100.0);
+      // Resolve
+      tl.to(["#s4-left","#s4-rhed","#s4-sp1","#s4-sp2","#s4-sp3"],
+            { opacity: 0, duration: 0.35, ease: "power2.in" }, 113.5);
+      tl.to(["#s4-sep","#s4-cap"], { opacity: 0, duration: 0.3, ease: "power2.in" }, 113.7);
+
+      // ── SCENE 5: CATALOGS (115–150s) ──────────────────────────────────────
+      tl.from("#s5-left",  { opacity: 0, x: -40, duration: 0.6, ease: "power3.out" }, 115.2);
+      tl.from("#s5-sep",   { scaleY: 0, transformOrigin: "top", duration: 0.55, ease: "power3.out" }, 115.6);
+      tl.from("#s5-rhed",  { opacity: 0, y: -18, duration: 0.45, ease: "power3.out" }, 115.9);
+      tl.from("#s5-cap",   { opacity: 0, y: 18,  duration: 0.4,  ease: "sine.out" }, 116.2);
+      tl.to("#s5-sp1",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 119.5);
+      tl.to("#s5-sp2",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 129.0);
+      tl.to("#s5-sp3",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 138.5);
+      // Resolve
+      tl.to(["#s5-left","#s5-rhed","#s5-sp1","#s5-sp2","#s5-sp3"],
+            { opacity: 0, duration: 0.35, ease: "power2.in" }, 148.5);
+      tl.to(["#s5-sep","#s5-cap"], { opacity: 0, duration: 0.3, ease: "power2.in" }, 148.7);
+
+      // ── SCENE 6: BADGE SCANNER (150–180s) ────────────────────────────────
+      tl.from("#s6-left",  { opacity: 0, x: -40, duration: 0.6, ease: "power3.out" }, 150.2);
+      tl.from("#s6-sep",   { scaleY: 0, transformOrigin: "top", duration: 0.55, ease: "power3.out" }, 150.6);
+      tl.from("#s6-rhed",  { opacity: 0, y: -18, duration: 0.45, ease: "power3.out" }, 150.9);
+      tl.from("#s6-cap",   { opacity: 0, y: 18,  duration: 0.4,  ease: "sine.out" }, 151.2);
+      tl.to("#s6-sp1",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 154.5);
+      tl.to("#s6-sp2",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 163.0);
+      tl.to("#s6-sp3",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 171.5);
+      // Resolve
+      tl.to(["#s6-left","#s6-rhed","#s6-sp1","#s6-sp2","#s6-sp3"],
+            { opacity: 0, duration: 0.35, ease: "power2.in" }, 178.5);
+      tl.to(["#s6-sep","#s6-cap"], { opacity: 0, duration: 0.3, ease: "power2.in" }, 178.7);
+
+      // ── SCENE 7: LEAD FORMS (180–210s) ──────────────────────────────────
+      tl.from("#s7-left",  { opacity: 0, x: -40, duration: 0.6, ease: "power3.out" }, 180.2);
+      tl.from("#s7-sep",   { scaleY: 0, transformOrigin: "top", duration: 0.55, ease: "power3.out" }, 180.6);
+      tl.from("#s7-rhed",  { opacity: 0, y: -18, duration: 0.45, ease: "power3.out" }, 180.9);
+      tl.from("#s7-cap",   { opacity: 0, y: 18,  duration: 0.4,  ease: "sine.out" }, 181.2);
+      tl.to("#s7-sp1",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 184.5);
+      tl.to("#s7-sp2",     { x: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 196.0);
+      tl.to("#s7-contrast",{ x: 0, opacity: 1, duration: 0.6,  ease: "expo.out" }, 203.0);
+      // Resolve
+      tl.to(["#s7-left","#s7-rhed","#s7-sp1","#s7-sp2","#s7-contrast"],
+            { opacity: 0, duration: 0.35, ease: "power2.in" }, 208.5);
+      tl.to(["#s7-sep","#s7-cap"], { opacity: 0, duration: 0.3, ease: "power2.in" }, 208.7);
+
+      // ── SCENE 8: OUTCOME (210–255s) ─────────────────────────────────────────
+      tl.from("#s8-eyebrow",{ opacity: 0, y: -18, duration: 0.45, ease: "power3.out" }, 210.2);
+      tl.from("#s8-hed",   { opacity: 0, y: 44,  duration: 0.65, ease: "expo.out" }, 210.4);
+      tl.to("#s8-rule",    { scaleX: 1, duration: 0.55, ease: "power3.out" }, 210.9);
+      tl.from("#s8-cap",   { opacity: 0, y: 18,  duration: 0.4,  ease: "sine.out" }, 211.2);
+      tl.to("#s8-c1",      { y: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 213.5);
+      tl.to("#s8-c2",      { y: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 221.0);
+      tl.to("#s8-c3",      { y: 0, opacity: 1, duration: 0.55, ease: "expo.out" }, 228.5);
+      tl.to("#s8-quote",   { y: 0, opacity: 1, duration: 0.65, ease: "expo.out" }, 238.0);
+      tl.to(["#s8-c1","#s8-c2","#s8-c3"],
+            { scale: 1.02, duration: 2.0, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.2 }, 244.0);
+      // Resolve
+      tl.to(["#s8-hed","#s8-c1","#s8-c2","#s8-c3","#s8-quote"],
+            { opacity: 0, y: -20, stagger: 0.04, duration: 0.32, ease: "power3.in" }, 253.5);
+      tl.to(["#s8-eyebrow","#s8-rule","#s8-cap"],
+            { opacity: 0, duration: 0.28, ease: "power2.in" }, 253.7);
+
+      // ── SCENE 9: CTA (255–270s) ─────────────────────────────────────────────
+      tl.from("#s9-glow",  { opacity: 0, scale: 0.82, duration: 1.0, ease: "sine.out" }, 255.2);
+      tl.to(["#s9-lt","#s9-lb"], { scaleX: 1, duration: 0.75, ease: "expo.out", stagger: 0.1 }, 255.3);
+      tl.to(["#s9-ll","#s9-lr"], { opacity: 1, duration: 0.45, ease: "sine.out" }, 255.3);
+      tl.from("#s9-logo",  { opacity: 0, scale: 0.84, duration: 0.9, ease: "expo.out" }, 255.5);
+      tl.from("#s9-sub",   { opacity: 0, y: 24,  duration: 0.55, ease: "sine.out" }, 256.2);
+      tl.from("#s9-url",   { opacity: 0, y: 24,  duration: 0.5,  ease: "sine.out" }, 256.7);
+      tl.from("#s9-close", { opacity: 0, y: 24,  duration: 0.5,  ease: "sine.out" }, 257.2);
+      tl.to("#s9-glow",    { scale: 1.1, duration: 5.0, ease: "sine.inOut", yoyo: true, repeat: 1 }, 256.0);
+      tl.to("#s9-logo",    { scale: 1.02, duration: 3.0, ease: "sine.inOut", yoyo: true, repeat: 2 }, 257.5);
+
+      window.__timelines["callcards-430"] = tl;
+    </script>
+  </body>
+</html>

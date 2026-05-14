@@ -1,0 +1,13 @@
+{
+  "name": "callcards-430",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "hyperframes dev",
+    "check": "hyperframes lint && hyperframes validate && hyperframes inspect",
+    "render": "hyperframes render",
+    "publish": "hyperframes publish"
+  },
+  "devDependencies": {
+    "hyperframes": "latest"
+  }
+}
