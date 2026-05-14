@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Call Cards — Demo 06</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;font-family:'Inter',system-ui,sans-serif;background:#0a0a0a}
+.clip{position:absolute;top:0;left:0;width:1080px;height:1920px}
+#hook-wrap{display:flex;align-items:center;justify-content:center;height:100%}
+#ht{font-size:78px;font-weight:800;line-height:1.15;text-align:center;color:#fff;padding:0 80px}
+#ht em{font-style:normal;color:#00b37d}
+.step{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:0 64px;opacity:0}
+.slabel{font-size:28px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#00b37d}
+.scap{font-size:38px;font-weight:600;color:#fff;text-align:center}
+.qr-wrap{background:#fff;border-radius:20px;padding:28px;width:360px;height:360px;position:relative}
+.qr-corner{position:absolute;width:76px;height:76px;border:10px solid #111;border-radius:5px}
+.qr-corner::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;background:#111;border-radius:2px}
+.qr-corner.tl{top:16px;left:16px}.qr-corner.tr{top:16px;right:16px}.qr-corner.bl{bottom:16px;left:16px}
+.qr-data{position:absolute;top:108px;left:108px;width:200px;height:200px;display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.qd{background:#111;border-radius:2px}.qd.e{background:transparent}
+.dcard{background:#fff;border-radius:20px;padding:36px;width:680px}
+.dc-avatar{width:80px;height:80px;border-radius:50%;background:#e8e8e4;margin-bottom:20px}
+.dc-name{font-size:38px;font-weight:800;color:#111;margin-bottom:6px}
+.dc-title{font-size:24px;color:#666;margin-bottom:28px}
+.dc-chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font-size:20px;font-weight:600;padding:8px 18px;border-radius:999px}
+.chip-d{background:#f0f0ec;color:#333}.chip-j{background:#e6f7f1;color:#00b37d}
+.dcard-cap{font-size:38px;font-weight:600;color:#fff;text-align:center}
+.chat-area{width:680px;display:flex;flex-direction:column;gap:16px}
+.chat-bubble{background:#1a7a4a;border-radius:16px 16px 4px 16px;padding:28px 32px}
+.chat-msg{font-size:27px;color:#fff;line-height:1.6}
+.chat-time{font-size:20px;color:rgba(255,255,255,.55);text-align:right;margin-top:10px}
+.chat-auto{font-size:24px;color:rgba(255,255,255,.4);text-align:center}
+.chat-cap{font-size:38px;font-weight:600;color:#fff;text-align:center}
+.lead-card{background:#fff;border-radius:20px;padding:32px;width:680px}
+.lead-pill{display:inline-flex;align-items:center;gap:8px;background:#e6f7f1;color:#00b37d;font-size:22px;font-weight:700;padding:8px 20px;border-radius:999px;margin-bottom:20px}
+.lpulse{width:10px;height:10px;background:#00b37d;border-radius:50%}
+.lead-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f0f0ec}
+.lead-row:last-child{border-bottom:none}
+.lr-label{font-size:22px;color:#999}.lr-val{font-size:24px;font-weight:700;color:#111}
+.lead-cap{font-size:38px;font-weight:600;color:#fff;text-align:center}
+#cta-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;height:100%;opacity:0}
+.cta-text{font-size:58px;font-weight:700;color:#fff;text-align:center;max-width:860px;line-height:1.2}
+#cta-pill{background:#00b37d;color:#fff;font-size:50px;font-weight:800;padding:30px 80px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="clip" data-start="0" data-duration="30" data-track-index="0" style="background:#0a0a0a"></div>
+<div id="hook-wrap" class="clip" data-start="0" data-duration="6" data-track-index="1">
+  <p id="ht">Most digital card apps don't have badge scanning. <em>This one does.</em></p>
+</div>
+<div id="d1" class="step clip" data-start="6" data-duration="6" data-track-index="1">
+  <div class="slabel">Step 1 — Share QR</div>
+  <div class="qr-wrap">
+    <div class="qr-corner tl"></div><div class="qr-corner tr"></div><div class="qr-corner bl"></div>
+    <div class="qr-data">
+      <div class="qd"></div><div class="qd e"></div><div class="qd"></div><div class="qd"></div><div class="qd e"></div><div class="qd"></div>
+      <div class="qd e"></div><div class="qd"></div><div class="qd"></div><div class="qd e"></div><div class="qd"></div><div class="qd e"></div>
+      <div class="qd"></div><div class="qd"></div><div class="qd e"></div><div class="qd e"></div><div class="qd"></div><div class="qd"></div>
+      <div class="qd e"></div><div class="qd"></div><div class="qd e"></div><div class="qd"></div><div class="qd e"></div><div class="qd"></div>
+      <div class="qd"></div><div class="qd e"></div><div class="qd"></div><div class="qd e"></div><div class="qd"></div><div class="qd"></div>
+      <div class="qd e"></div><div class="qd"></div><div class="qd"></div><div class="qd e"></div><div class="qd e"></div><div class="qd"></div>
+    </div>
+  </div>
+  <div class="scap">One scan. Done.</div>
+</div>
+<div id="d2" class="step clip" data-start="12" data-duration="6" data-track-index="1">
+  <div class="slabel">Step 2 — They Get Everything</div>
+  <div class="dcard">
+    <div class="dc-avatar"></div>
+    <div class="dc-name">Your Name</div>
+    <div class="dc-title">Company · Designation</div>
+    <div class="dc-chips"><span class="chip chip-j">Digital Catalog</span><span class="chip chip-j">Badge Scanner</span><span class="chip chip-d">Contact</span><span class="chip chip-d">Lead Forms</span></div>
+  </div>
+  <div class="dcard-cap">Everything in one tap.</div>
+</div>
+<div id="d3" class="step clip" data-start="18" data-duration="6" data-track-index="1">
+  <div class="slabel">Step 3 — Follow-up Sends Itself</div>
+  <div class="chat-area">
+    <div class="chat-bubble"><div class="chat-msg">Hi! Thanks for stopping by our booth. I've shared our full product catalog — take a look when you're ready. Looking forward to connecting.</div><div class="chat-time">Now ✓✓</div></div>
+    <div class="chat-auto">Sent automatically — the moment they scan.</div>
+  </div>
+  <div class="chat-cap">No typing. Ever.</div>
+</div>
+<div id="d4" class="step clip" data-start="24" data-duration="3" data-track-index="1">
+  <div class="slabel">Step 4 — Lead Logged</div>
+  <div class="lead-card">
+    <div class="lead-pill"><div class="lpulse"></div>New Lead · Just now</div>
+    <div class="lead-row"><span class="lr-label">Name</span><span class="lr-val">Rahul Sharma</span></div>
+    <div class="lead-row"><span class="lr-label">Company</span><span class="lr-val">Sharma Exports</span></div>
+    <div class="lead-row"><span class="lr-label">Phone</span><span class="lr-val">+91 98765 43210</span></div>
+    <div class="lead-row"><span class="lr-label">Scanned</span><span class="lr-val" style="color:#00b37d">Just now</span></div>
+  </div>
+  <div class="lead-cap">Automatic. Every time.</div>
+</div>
+<div class="clip" data-start="27" data-duration="3" data-track-index="1">
+  <div id="cta-wrap"><div class="cta-text">Get your free digital card.</div><div id="cta-pill">call.cards</div></div>
+</div>
+<audio class="clip" data-start="0" data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
+<audio id="music" class="clip" data-start="0" data-duration="30" data-track-index="3" src="../shared/music.mp3" loop></audio>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js"></script>
+<script>
+window.__timelines=window.__timelines||{};
+gsap.set('#ht',{opacity:0,y:36});
+gsap.set(['#d1','#d2','#d3','#d4'],{opacity:0});
+gsap.set('#cta-wrap',{opacity:0});
+gsap.set(document.getElementById('music'),{volume:0.13});
+const tl=gsap.timeline({paused:true});
+tl.to('#ht',{opacity:1,y:0,duration:0.55,ease:'power3.out'},0.3);
+tl.to('#d1',{opacity:1,duration:0.4,ease:'power2.out'},6.3);
+tl.from('#d1 .qr-wrap',{scale:0.9,duration:0.5,ease:'back.out(1.4)'},6.3);
+tl.to('#d2',{opacity:1,duration:0.4,ease:'power2.out'},12.3);
+tl.from('#d2 .dcard',{y:20,duration:0.45,ease:'power2.out'},12.3);
+tl.to('#d3',{opacity:1,duration:0.4,ease:'power2.out'},18.3);
+tl.from('#d3 .chat-bubble',{x:20,duration:0.45,ease:'power2.out'},18.3);
+tl.to('#d4',{opacity:1,duration:0.4,ease:'power2.out'},24.3);
+tl.from('#d4 .lead-card',{scale:0.94,duration:0.4,ease:'back.out(1.4)'},24.3);
+tl.to('#cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},27.2);
+window.__timelines['callcards-demo-ad-06']=tl;
+</script>
+</body>
+</html>
