@@ -1,3 +1,6 @@
+# Audio files
+*.mp3
+
 # Video files
 *.mp4
 *.mov

@@ -47,6 +47,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;font-family:'Inter',system-
 </style>
 </head>
 <body>
+<div id="stage" data-composition-id="callcards-demo-ad-09" data-start="0" data-width="1080" data-height="1920" data-duration="30" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
 <div class="clip" data-start="0" data-duration="30" data-track-index="0" style="background:#0a0a0a"></div>
 <div id="hook-wrap" class="clip" data-start="0" data-duration="6" data-track-index="1">
   <p id="ht">One scan. One second. Full lead captured. <em>Let me show you.</em></p>
@@ -77,12 +78,17 @@ html,body{width:1080px;height:1920px;overflow:hidden;font-family:'Inter',system-
   <div class="dcard-cap">Everything in one tap.</div>
 </div>
 <div id="d3" class="step clip" data-start="18" data-duration="6" data-track-index="1">
-  <div class="slabel">Step 3 — Follow-up Sends Itself</div>
-  <div class="chat-area">
-    <div class="chat-bubble"><div class="chat-msg">Hi! Thanks for stopping by our booth. I've shared our full product catalog — take a look when you're ready. Looking forward to connecting.</div><div class="chat-time">Now ✓✓</div></div>
-    <div class="chat-auto">Sent automatically — the moment they scan.</div>
+  <div class="slabel">Step 3 — They Share Back</div>
+  <div class="dcard">
+    <div class="dc-avatar"></div>
+    <div class="dc-name">Rahul Sharma</div>
+    <div class="dc-title">Sharma Exports · Buyer</div>
+    <div class="dc-chips">
+      <span class="chip chip-d">+91 98765 43210</span>
+      <span class="chip chip-d">rahul@sharma.in</span>
+    </div>
   </div>
-  <div class="chat-cap">No typing. Ever.</div>
+  <div class="dcard-cap">Their contact. Your dashboard.</div>
 </div>
 <div id="d4" class="step clip" data-start="24" data-duration="3" data-track-index="1">
   <div class="slabel">Step 4 — Lead Logged</div>
@@ -98,9 +104,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;font-family:'Inter',system-
 <div class="clip" data-start="27" data-duration="3" data-track-index="1">
   <div id="cta-wrap"><div class="cta-text">Get your free digital card.</div><div id="cta-pill">call.cards</div></div>
 </div>
-<audio class="clip" data-start="0" data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
-<audio id="music" class="clip" data-start="0" data-duration="30" data-track-index="3" src="../shared/music.mp3" loop></audio>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js"></script>
+<audio id="vo" class="clip" data-start="0" data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
+<audio id="music" class="clip" data-start="0" data-duration="30" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
+<script src="../../shared/gsap.min.js"></script>
 <script>
 window.__timelines=window.__timelines||{};
 gsap.set('#ht',{opacity:0,y:36});
@@ -114,11 +120,13 @@ tl.from('#d1 .qr-wrap',{scale:0.9,duration:0.5,ease:'back.out(1.4)'},6.3);
 tl.to('#d2',{opacity:1,duration:0.4,ease:'power2.out'},12.3);
 tl.from('#d2 .dcard',{y:20,duration:0.45,ease:'power2.out'},12.3);
 tl.to('#d3',{opacity:1,duration:0.4,ease:'power2.out'},18.3);
-tl.from('#d3 .chat-bubble',{x:20,duration:0.45,ease:'power2.out'},18.3);
+tl.from('#d3 .dcard',{y:20,duration:0.45,ease:'power2.out'},18.3);
 tl.to('#d4',{opacity:1,duration:0.4,ease:'power2.out'},24.3);
 tl.from('#d4 .lead-card',{scale:0.94,duration:0.4,ease:'back.out(1.4)'},24.3);
 tl.to('#cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},27.2);
+window.__timelines = window.__timelines || {};
 window.__timelines['callcards-demo-ad-09']=tl;
 </script>
+</div>
 </body>
 </html>

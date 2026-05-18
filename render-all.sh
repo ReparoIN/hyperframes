@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Render all 30 Call Cards ads in draft quality.
+# Render all 31 Call Cards ads in draft quality.
 # Run from the repo root. Requires music.mp3 in each format's shared/ folder.
 #
 # Draft quality flag — adjust to taste:
 #   --scale 0.5   half resolution, fastest
 #   --fps 15      half framerate
 #   (use both for maximum speed)
-DRAFT_FLAGS="--scale 0.5"
+DRAFT_FLAGS="--quality draft"
 
 FORMATS=(
   "callcards-edu-ads"
@@ -59,12 +59,12 @@ for fmt in "${FORMATS[@]}"; do
     # generate TTS if missing
     if [ ! -f "$ad/assets/voiceover.mp3" ]; then
       echo "  → TTS..."
-      npx hyperframes tts "$ad/voiceover-script.txt" --out "$ad/assets/voiceover.mp3"
+      npx hyperframes tts "$ad/voiceover-script.txt" --output "$ad/assets/voiceover.mp3"
     fi
 
     # render
     echo "  → Rendering..."
-    npx hyperframes render "$ad/index.html" --out "$out" $DRAFT_FLAGS
+    npx hyperframes render "$ad" --output "$out" $DRAFT_FLAGS
     echo "  ✓ $out"
   done
 done

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1080">
-<title>Call Cards — Fortune on the Booth</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js"></script>
+<title>Call Cards — Excel Sheet</title>
+<script src="../../shared/gsap.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{width:1080px;height:1920px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1f35}
@@ -29,37 +29,38 @@ body{width:1080px;height:1920px;overflow:hidden;font-family:-apple-system,BlinkM
 </style>
 </head>
 <body>
-<div id="bg-hook" class="clip" data-start="0"  data-duration="6"  data-track-index="0"></div>
+<div id="stage" data-composition-id="callcards-edu-ad-02" data-start="0" data-width="1080" data-height="1920" data-duration="30" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
+<div id="bg-hook" class="clip" data-start="0" data-duration="6"  data-track-index="0"></div>
 <div id="bg-meat" class="clip" data-start="6"  data-duration="21" data-track-index="0"></div>
 <div id="bg-cta"  class="clip" data-start="27" data-duration="3"  data-track-index="0"></div>
 <audio id="vo"    class="clip" data-start="0"  data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
-<audio id="music" class="clip" data-start="0"  data-duration="30" data-track-index="3" src="../shared/music.mp3" loop></audio>
+<audio id="music" class="clip" data-start="0"  data-duration="30" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
 <div class="hook-wrap clip" data-start="0" data-duration="6" data-track-index="1">
-  <p id="ht" class="hook-text" style="font-size:62px">You spent a fortune<br>on the booth.<br><br>You lost the leads<br>that were supposed<br>to pay for it.</p>
+  <p id="ht" class="hook-text" style="font-size:84px">Using Excel to collect<br>leads at your expo.</p>
 </div>
-<p class="meat-hd clip" data-start="6" data-duration="21" data-track-index="1">3 Reasons Paper Cards<br>Fail at Trade Shows</p>
-<div id="r1" class="rcard clip" data-start="6" data-duration="21" data-track-index="1">
+<p class="meat-hd clip" data-start="6" data-duration="21" data-track-index="1">3 Reasons Excel Fails<br>at Trade Shows</p>
+<div id="r1" class="rcard clip" data-start="6" data-duration="21" data-track-index="4">
   <div class="rlabel">Reason 1</div>
-  <div class="rproblem">They get lost.</div>
-  <div class="rdetail">Bags, pockets, hotel rooms.<br>By Monday, half are gone.</div>
+  <div class="rproblem">One laptop, one queue.</div>
+  <div class="rdetail">Visitors wait. Others leave.</div>
   <div class="rsolve-lbl">Call Cards</div>
-  <div class="rsolve">Every scan saved instantly<br>to your dashboard.</div>
+  <div class="rsolve">Booth Mode runs on as many devices as you need.</div>
 </div>
-<div id="r2" class="rcard clip" data-start="6" data-duration="21" data-track-index="1">
+<div id="r2" class="rcard clip" data-start="6" data-duration="21" data-track-index="5">
   <div class="rlabel">Reason 2</div>
-  <div class="rproblem">No follow-up system.</div>
-  <div class="rdetail">You collected cards. Then what?<br>No reminder. No next step.</div>
+  <div class="rproblem">Every visitor sees the last one's data.</div>
+  <div class="rdetail">A privacy problem at a busy booth.</div>
   <div class="rsolve-lbl">Call Cards</div>
-  <div class="rsolve">Follow-up sends the moment<br>they scan your card.</div>
+  <div class="rsolve">Each visitor sees only their own form. Private.</div>
 </div>
-<div id="r3" class="rcard clip" data-start="6" data-duration="21" data-track-index="1">
+<div id="r3" class="rcard clip" data-start="6" data-duration="21" data-track-index="6">
   <div class="rlabel">Reason 3</div>
-  <div class="rproblem">No data.</div>
-  <div class="rdetail">You don't know who came by,<br>when, or how many times.</div>
+  <div class="rproblem">One crash, leads gone.</div>
+  <div class="rdetail">No recovery. No backup.</div>
   <div class="rsolve-lbl">Call Cards</div>
-  <div class="rsolve">Full lead log — name, company,<br>phone — exportable to any CRM.</div>
+  <div class="rsolve">Syncs every lead to your dashboard. Always.</div>
 </div>
-<div class="cta-wrap clip" data-start="27" data-duration="3" data-track-index="1">
+<div class="cta-wrap clip" data-start="27" data-duration="3" data-track-index="7">
   <p class="cta-headline">Get your free<br>digital card.</p>
   <div class="cta-pill"><p class="cta-url">call.cards</p></div>
 </div>
@@ -76,7 +77,9 @@ tl.to('#r1',      {opacity:1,y:0,duration:0.45,ease:'power2.out'},6.8);
 tl.to('#r2',      {opacity:1,y:0,duration:0.45,ease:'power2.out'},13.2);
 tl.to('#r3',      {opacity:1,y:0,duration:0.45,ease:'power2.out'},19.8);
 tl.to('.cta-wrap',{opacity:1,    duration:0.4, ease:'power2.out'},27.2);
+window.__timelines = window.__timelines || {};
 window.__timelines['callcards-edu-ad-02']=tl;
 </script>
+</div>
 </body>
 </html>
