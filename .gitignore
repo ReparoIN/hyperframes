@@ -22,3 +22,6 @@ renders/
 
 # Firecrawl cache
 .firecrawl/
+
+# CodeGraph generated index
+.codegraph/codegraph.db
