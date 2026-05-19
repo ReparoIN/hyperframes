@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__codegraph__*",
+      "Read",
+      "Write",
+      "Edit",
+      "Bash(node *)",
+      "Bash(python3 *)",
+      "Bash(bash *)",
+      "Bash(sh *)",
+      "Bash(ffmpeg *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "WebSearch",
+      "WebFetch"
+    ]
+  }
+}
