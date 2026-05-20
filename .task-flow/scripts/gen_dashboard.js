@@ -58,7 +58,6 @@ function loadLog(dbPath, repoName, limit = 40) {
   return new Promise((resolve) => {
     if (!fs.existsSync(dbPath)) return resolve([]);
     const db = new Database(dbPath, require('sqlite3').OPEN_READONLY);
-    // Check if task_log table exists first
     db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name='task_log'`, (err, row) => {
       if (err || !row) { db.close(); return resolve([]); }
       db.all(`
@@ -79,8 +78,8 @@ function loadLog(dbPath, repoName, limit = 40) {
 
 // --- Build HTML ---
 function buildHtml(allTasks, allLog, repoNames, generatedAt) {
-  const dataJson = JSON.stringify(allTasks, null, 2);
-  const logJson  = JSON.stringify(allLog,   null, 2);
+  const dataJson  = JSON.stringify(allTasks, null, 2);
+  const logJson   = JSON.stringify(allLog,   null, 2);
   const reposJson = JSON.stringify(repoNames);
 
   return `<!DOCTYPE html>
@@ -189,35 +188,35 @@ function renderTask(t, isChild, tl) {
   const children = tl.filter(c => c.parent_id === t.id);
   const prog = children.length ? {done: children.filter(c=>c.status==='done').length, total: children.length} : null;
   const needsInput = t.status === 'needs_human';
-  const repoTag = activeRepo === 'all' ? \`<span style="color:var(--purple);font-size:11px;">[\${t.repo}]</span> \` : '';
+  const repoTag = activeRepo === 'all' ? `<span style="color:var(--purple);font-size:11px;">[${t.repo}]</span> ` : '';
 
-  const replyHtml = needsInput ? \`
+  const replyHtml = needsInput ? `
     <div class="reply-area">
       <label>↑ Your reply — fill in then Copy</label>
       <div class="reply-row">
-        <textarea class="reply-input" id="reply-\${t.id}">[TASK-\${t.id}] </textarea>
-        <button class="copy-btn" onclick="copyOne(\${t.id})">Copy</button>
+        <textarea class="reply-input" id="reply-${t.id}">[TASK-${t.id}] </textarea>
+        <button class="copy-btn" onclick="copyOne(${t.id})">Copy</button>
       </div>
-    </div>\` : '';
+    </div>` : '';
 
-  const progressHtml = prog ? \`
-    <div class="task-meta">\${prog.done}/\${prog.total} sub-tasks done</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:\${Math.round(prog.done/prog.total*100)}%"></div></div>\` : '';
+  const progressHtml = prog ? `
+    <div class="task-meta">${prog.done}/${prog.total} sub-tasks done</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(prog.done/prog.total*100)}%"></div></div>` : '';
 
-  return \`
-    <div class="task-card \${isChild?'sub':''} \${cardClass(t.status)}" data-repo="\${t.repo}">
+  return `
+    <div class="task-card ${isChild?'sub':''} ${cardClass(t.status)}" data-repo="${t.repo}">
       <div class="task-top">
-        <span class="task-id">#\${t.id}</span>
-        <span class="task-title">\${repoTag}\${esc(t.title)}</span>
-        <span class="status-pill \${pillClass(t.status)}">\${statusLabel(t.status)}</span>
+        <span class="task-id">#${t.id}</span>
+        <span class="task-title">${repoTag}${esc(t.title)}</span>
+        <span class="status-pill ${pillClass(t.status)}">${statusLabel(t.status)}</span>
       </div>
-      \${t.updated_at ? \`<div class="task-meta">Updated \${t.updated_at.slice(0,10)}</div>\` : ''}
-      \${t.context ? \`<div class="task-context">\${esc(t.context.trim())}</div>\` : ''}
-      \${progressHtml}
-      \${replyHtml}
+      ${t.updated_at ? `<div class="task-meta">Updated ${t.updated_at.slice(0,10)}</div>` : ''}
+      ${t.context ? `<div class="task-context">${esc(t.context.trim())}</div>` : ''}
+      ${progressHtml}
+      ${replyHtml}
     </div>
-    \${children.map(c => renderTask(c, true, tl)).join('')}
-  \`;
+    ${children.map(c => renderTask(c, true, tl)).join('')}
+  `;
 }
 
 function render() {
@@ -233,10 +232,10 @@ function render() {
   for (const g of groups) {
     const items = topLevel.filter(g.filter);
     if (!items.length) continue;
-    html += \`<div class="section">
-      <div class="section-header">\${g.label} <span class="badge">\${items.length}</span></div>
-      \${items.map(t => renderTask(t, false, tl)).join('')}
-    </div>\`;
+    html += `<div class="section">
+      <div class="section-header">${g.label} <span class="badge">${items.length}</span></div>
+      ${items.map(t => renderTask(t, false, tl)).join('')}
+    </div>`;
   }
   document.getElementById('main').innerHTML = html || '<div class="empty">No open tasks — all clear! 🎉</div>';
 }
@@ -244,8 +243,122 @@ function render() {
 function copyOne(id) {
   const el = document.getElementById('reply-' + id);
   const v = el?.value.trim();
-  if (!v || v === \`[TASK-\${id}]\`) return;
+  if (!v || v === `[TASK-${id}]`) return;
   navigator.clipboard.writeText(v).then(() => {
     const btn = el.parentElement.querySelector('.copy-btn');
     btn.textContent = 'Copied!'; btn.classList.add('copied');
-    setTimeout
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function copyAll() {
+  const lines = [];
+  document.querySelectorAll('.reply-input').forEach(el => {
+    const id = el.id.replace('reply-','');
+    const v = el.value.trim();
+    if (v && v !== `[TASK-${id}]`) lines.push(v);
+  });
+  if (!lines.length) { alert('Fill in at least one reply first.'); return; }
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.querySelector('.copy-all-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy All Replies'; }, 1500);
+  });
+}
+
+REPO_NAMES.forEach(r => {
+  const b = document.createElement('button');
+  b.className = 'repo-btn'; b.dataset.repo = r; b.textContent = r;
+  b.onclick = () => filterRepo(r);
+  document.getElementById('repo-buttons').appendChild(b);
+});
+
+function renderLog() {
+  const entries = activeRepo === 'all'
+    ? ALL_LOG
+    : ALL_LOG.filter(e => e.repo === activeRepo);
+
+  document.getElementById('log-badge').textContent = entries.length;
+
+  const actionLabel = {
+    created:     'created',
+    started:     'started',
+    done:        'done',
+    needs_human: 'blocked',
+    unblocked:   'unblocked',
+    wrap:        'wrap',
+    context:     'note',
+    sub_tasks:   'sub-tasks',
+    orchestrator:'orchestrated',
+  };
+
+  const html = entries.length
+    ? entries.map(e => {
+        const label = actionLabel[e.action] || e.action;
+        const taskRef = e.task_title ? `<b>#${e.task_id}</b> ${esc(e.task_title)}` : '';
+        const repoTag = activeRepo === 'all' ? `<span class="log-repo">[${e.repo}]</span>` : '';
+        const time = (e.created_at || '').slice(0, 16).replace('T', ' ');
+        return `
+          <div class="log-entry">
+            <span class="log-time">${time}</span>
+            <span class="log-action log-${e.action}">${label}</span>
+            <span class="log-note">${taskRef}${e.note ? ' — ' + esc(e.note) : ''}${repoTag}</span>
+            <span class="log-actor">${e.actor}</span>
+          </div>`;
+      }).join('')
+    : '<div class="empty">No activity logged yet.</div>';
+
+  document.getElementById('log-list').innerHTML = html;
+}
+
+const _origFilter = filterRepo;
+filterRepo = (repo) => { _origFilter(repo); renderLog(); };
+
+render();
+renderLog();
+</script>
+</body>
+</html>`;
+}
+
+// --- Main ---
+async function main() {
+  const repoRoot = path.resolve(__dirname, '..', '..');
+  const repoName = path.basename(repoRoot);
+  const repoPaths = [[path.join(repoRoot, 'tasks.db'), repoName]];
+
+  for (const rp of extraRepos) {
+    const abs = path.resolve(rp);
+    repoPaths.push([path.join(abs, 'tasks.db'), path.basename(abs)]);
+  }
+
+  const allTasks = [];
+  const allLog   = [];
+  const repoNames = [];
+  for (const [dbPath, name] of repoPaths) {
+    const tasks = await loadTasks(dbPath, name);
+    const log   = await loadLog(dbPath, name);
+    allTasks.push(...tasks);
+    allLog.push(...log);
+    if (!repoNames.includes(name)) repoNames.push(name);
+  }
+  allLog.sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
+
+  const generatedAt = new Date().toLocaleString('en-US', {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit'
+  });
+
+  const html = buildHtml(allTasks, allLog, repoNames, generatedAt);
+  fs.writeFileSync(outFile, html, 'utf8');
+
+  const needsHuman = allTasks.filter(t => t.status === 'needs_human').length;
+  const inProgress = allTasks.filter(t => t.status === 'in_progress').length;
+  const pending    = allTasks.filter(t => t.status === 'pending').length;
+
+  console.log(`✓ ${outFile} generated`);
+  console.log(`  🔴 Needs input: ${needsHuman}  🟡 In progress: ${inProgress}  ⚪ Pending: ${pending}`);
+  if (needsHuman) console.log('  → Open dashboard.html, fill replies, then /unblock');
+}
+
+main().catch(err => { console.error(err); process.exit(1); });
