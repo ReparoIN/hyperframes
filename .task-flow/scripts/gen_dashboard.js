@@ -10,29 +10,34 @@
  *
  * Or: npm run tasks:dashboard
  *
- * Requires: npm install sqlite3
+ * Requires: npm install better-sqlite3
  */
 
-const Database = require('sqlite3').Database;
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
 
 // --- CLI args ---
-const args = process.argv.slice(2);
+const args        = process.argv.slice(2);
 const repoFlagIdx = args.indexOf('--repos');
-const outFlagIdx = args.indexOf('--out');
-const extraRepos = repoFlagIdx !== -1
+const outFlagIdx  = args.indexOf('--out');
+const extraRepos  = repoFlagIdx !== -1
   ? args.slice(repoFlagIdx + 1).filter(a => !a.startsWith('--'))
   : [];
 const outFile = outFlagIdx !== -1 ? args[outFlagIdx + 1] : 'dashboard.html';
 
-// --- Load tasks from a DB ---
+// --- Load tasks from a DB (synchronous) ---
 function loadTasks(dbPath, repoName) {
-  return new Promise((resolve) => {
-    if (!fs.existsSync(dbPath)) return resolve([]);
-    const db = new Database(dbPath, require('sqlite3').OPEN_READONLY);
-    const cutoff = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-    db.all(`
+  if (!fs.existsSync(dbPath)) return [];
+  let db;
+  try {
+    db = require('better-sqlite3')(dbPath, { readonly: true });
+  } catch (e) {
+    return [];
+  }
+  const cutoff = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+  let rows = [];
+  try {
+    rows = db.prepare(`
       SELECT id, title, status, owner, context, parent_id, blocked_by, updated_at
       FROM tasks
       ORDER BY
@@ -42,38 +47,41 @@ function loadTasks(dbPath, repoName) {
           WHEN 'pending'     THEN 2
           WHEN 'done'        THEN 3
         END, id
-    `, (err, rows) => {
-      db.close();
-      if (err) return resolve([]);
-      const tasks = (rows || [])
-        .filter(r => !(r.status === 'done' && (r.updated_at || '').slice(0, 10) < cutoff))
-        .map(r => ({ ...r, repo: repoName }));
-      resolve(tasks);
-    });
-  });
+    `).all();
+  } catch (e) { /* table might not exist */ }
+  db.close();
+  return rows
+    .filter(r => !(r.status === 'done' && (r.updated_at || '').slice(0, 10) < cutoff))
+    .map(r => ({ ...r, repo: repoName }));
 }
 
-// --- Load recent log entries from a DB ---
+// --- Load recent log entries from a DB (synchronous) ---
 function loadLog(dbPath, repoName, limit = 40) {
-  return new Promise((resolve) => {
-    if (!fs.existsSync(dbPath)) return resolve([]);
-    const db = new Database(dbPath, require('sqlite3').OPEN_READONLY);
-    db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name='task_log'`, (err, row) => {
-      if (err || !row) { db.close(); return resolve([]); }
-      db.all(`
+  if (!fs.existsSync(dbPath)) return [];
+  let db;
+  try {
+    db = require('better-sqlite3')(dbPath, { readonly: true });
+  } catch (e) {
+    return [];
+  }
+  let rows = [];
+  try {
+    const hasLog = db.prepare(
+      `SELECT name FROM sqlite_master WHERE type='table' AND name='task_log'`
+    ).get();
+    if (hasLog) {
+      rows = db.prepare(`
         SELECT l.id, l.task_id, l.action, l.note, l.actor, l.created_at,
                t.title as task_title
         FROM task_log l
         LEFT JOIN tasks t ON t.id = l.task_id
         ORDER BY l.created_at DESC
         LIMIT ?
-      `, [limit], (err2, rows) => {
-        db.close();
-        if (err2) return resolve([]);
-        resolve((rows || []).map(r => ({ ...r, repo: repoName })));
-      });
-    });
-  });
+      `).all(limit);
+    }
+  } catch (e) { /* ignore */ }
+  db.close();
+  return rows.map(r => ({ ...r, repo: repoName }));
 }
 
 // --- Build HTML ---
@@ -81,6 +89,10 @@ function buildHtml(allTasks, allLog, repoNames, generatedAt) {
   const dataJson  = JSON.stringify(allTasks, null, 2);
   const logJson   = JSON.stringify(allLog,   null, 2);
   const reposJson = JSON.stringify(repoNames);
+
+  // Browser-side JS is a separate string to avoid backtick conflicts
+  // in the outer Node.js template literal.
+  const browserScript = getBrowserScript();
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -152,7 +164,7 @@ function buildHtml(allTasks, allLog, repoNames, generatedAt) {
 </head>
 <body>
 <header>
-  <h1>⚡ Task Flow</h1>
+  <h1>&#9889; Task Flow</h1>
   <div class="meta">Generated ${generatedAt}</div>
 </header>
 <div class="toolbar">
@@ -163,7 +175,7 @@ function buildHtml(allTasks, allLog, repoNames, generatedAt) {
 <div class="main" id="main"></div>
 <div class="main" style="max-width:960px;margin:0 auto;padding:0 24px 32px;">
   <div class="section">
-    <div class="section-header">📋 Recent Activity <span class="badge" id="log-badge"></span></div>
+    <div class="section-header">&#128203; Recent Activity <span class="badge" id="log-badge"></span></div>
     <div class="log-list" id="log-list"></div>
   </div>
 </div>
@@ -171,6 +183,15 @@ function buildHtml(allTasks, allLog, repoNames, generatedAt) {
 const ALL_TASKS = ${dataJson};
 const ALL_LOG   = ${logJson};
 const REPO_NAMES = ${reposJson};
+${browserScript}
+</script>
+</body>
+</html>`;
+}
+
+// --- Browser-side script (no backticks here — uses string concat for HTML) ---
+function getBrowserScript() {
+  return `
 let activeRepo = 'all';
 
 function filterRepo(repo) {
@@ -185,98 +206,101 @@ function cardClass(s) { return {needs_human:'needs-human',in_progress:'in-progre
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function renderTask(t, isChild, tl) {
-  const children = tl.filter(c => c.parent_id === t.id);
-  const prog = children.length ? {done: children.filter(c=>c.status==='done').length, total: children.length} : null;
+  const children = tl.filter(function(c) { return c.parent_id === t.id; });
+  const prog = children.length ? {done: children.filter(function(c){return c.status==='done';}).length, total: children.length} : null;
   const needsInput = t.status === 'needs_human';
-  const repoTag = activeRepo === 'all' ? `<span style="color:var(--purple);font-size:11px;">[${t.repo}]</span> ` : '';
+  const repoTag = activeRepo === 'all' ? '<span style="color:var(--purple);font-size:11px;">[' + t.repo + ']</span> ' : '';
 
-  const replyHtml = needsInput ? `
-    <div class="reply-area">
-      <label>↑ Your reply — fill in then Copy</label>
-      <div class="reply-row">
-        <textarea class="reply-input" id="reply-${t.id}">[TASK-${t.id}] </textarea>
-        <button class="copy-btn" onclick="copyOne(${t.id})">Copy</button>
-      </div>
-    </div>` : '';
+  const replyHtml = needsInput
+    ? '<div class="reply-area">' +
+        '<label>&#8593; Your reply &#8212; fill in then Copy</label>' +
+        '<div class="reply-row">' +
+          '<textarea class="reply-input" id="reply-' + t.id + '">[TASK-' + t.id + '] </textarea>' +
+          '<button class="copy-btn" onclick="copyOne(' + t.id + ')">Copy</button>' +
+        '</div>' +
+      '</div>'
+    : '';
 
-  const progressHtml = prog ? `
-    <div class="task-meta">${prog.done}/${prog.total} sub-tasks done</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(prog.done/prog.total*100)}%"></div></div>` : '';
+  const progressHtml = prog
+    ? '<div class="task-meta">' + prog.done + '/' + prog.total + ' sub-tasks done</div>' +
+      '<div class="progress-bar"><div class="progress-fill" style="width:' + Math.round(prog.done/prog.total*100) + '%"></div></div>'
+    : '';
 
-  return `
-    <div class="task-card ${isChild?'sub':''} ${cardClass(t.status)}" data-repo="${t.repo}">
-      <div class="task-top">
-        <span class="task-id">#${t.id}</span>
-        <span class="task-title">${repoTag}${esc(t.title)}</span>
-        <span class="status-pill ${pillClass(t.status)}">${statusLabel(t.status)}</span>
-      </div>
-      ${t.updated_at ? `<div class="task-meta">Updated ${t.updated_at.slice(0,10)}</div>` : ''}
-      ${t.context ? `<div class="task-context">${esc(t.context.trim())}</div>` : ''}
-      ${progressHtml}
-      ${replyHtml}
-    </div>
-    ${children.map(c => renderTask(c, true, tl)).join('')}
-  `;
+  const updatedHtml = t.updated_at ? '<div class="task-meta">Updated ' + t.updated_at.slice(0,10) + '</div>' : '';
+  const contextHtml = t.context ? '<div class="task-context">' + esc(t.context.trim()) + '</div>' : '';
+
+  const childrenHtml = children.map(function(c) { return renderTask(c, true, tl); }).join('');
+
+  return '<div class="task-card ' + (isChild ? 'sub' : '') + ' ' + cardClass(t.status) + '" data-repo="' + t.repo + '">' +
+    '<div class="task-top">' +
+      '<span class="task-id">#' + t.id + '</span>' +
+      '<span class="task-title">' + repoTag + esc(t.title) + '</span>' +
+      '<span class="status-pill ' + pillClass(t.status) + '">' + statusLabel(t.status) + '</span>' +
+    '</div>' +
+    updatedHtml + contextHtml + progressHtml + replyHtml +
+  '</div>' + childrenHtml;
 }
 
 function render() {
   const tl = tasks();
-  const topLevel = tl.filter(t => !t.parent_id);
+  const topLevel = tl.filter(function(t) { return !t.parent_id; });
   const groups = [
-    {label:'🔴 Needs Your Input', filter: t => t.status==='needs_human'},
-    {label:'🟡 In Progress',      filter: t => t.status==='in_progress'},
-    {label:'⚪ Pending',           filter: t => t.status==='pending'},
-    {label:'✅ Done (last 7 days)',filter: t => t.status==='done'},
+    {label:'&#128308; Needs Your Input', filter: function(t) { return t.status==='needs_human'; }},
+    {label:'&#128993; In Progress',      filter: function(t) { return t.status==='in_progress'; }},
+    {label:'&#9898; Pending',            filter: function(t) { return t.status==='pending'; }},
+    {label:'&#9989; Done (last 7 days)', filter: function(t) { return t.status==='done'; }},
   ];
   let html = '';
-  for (const g of groups) {
+  for (let i = 0; i < groups.length; i++) {
+    const g = groups[i];
     const items = topLevel.filter(g.filter);
     if (!items.length) continue;
-    html += `<div class="section">
-      <div class="section-header">${g.label} <span class="badge">${items.length}</span></div>
-      ${items.map(t => renderTask(t, false, tl)).join('')}
-    </div>`;
+    html += '<div class="section">' +
+      '<div class="section-header">' + g.label + ' <span class="badge">' + items.length + '</span></div>' +
+      items.map(function(t) { return renderTask(t, false, tl); }).join('') +
+    '</div>';
   }
-  document.getElementById('main').innerHTML = html || '<div class="empty">No open tasks — all clear! 🎉</div>';
+  document.getElementById('main').innerHTML = html || '<div class="empty">No open tasks &#8212; all clear! &#127881;</div>';
 }
 
 function copyOne(id) {
   const el = document.getElementById('reply-' + id);
-  const v = el?.value.trim();
-  if (!v || v === `[TASK-${id}]`) return;
-  navigator.clipboard.writeText(v).then(() => {
+  if (!el) return;
+  const v = el.value.trim();
+  if (!v || v === '[TASK-' + id + ']') return;
+  navigator.clipboard.writeText(v).then(function() {
     const btn = el.parentElement.querySelector('.copy-btn');
     btn.textContent = 'Copied!'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+    setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
   });
 }
 
 function copyAll() {
   const lines = [];
-  document.querySelectorAll('.reply-input').forEach(el => {
+  document.querySelectorAll('.reply-input').forEach(function(el) {
     const id = el.id.replace('reply-','');
     const v = el.value.trim();
-    if (v && v !== `[TASK-${id}]`) lines.push(v);
+    if (v && v !== '[TASK-' + id + ']') lines.push(v);
   });
   if (!lines.length) { alert('Fill in at least one reply first.'); return; }
-  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+  navigator.clipboard.writeText(lines.join('\\n')).then(function() {
     const btn = document.querySelector('.copy-all-btn');
     btn.textContent = 'Copied!';
-    setTimeout(() => { btn.textContent = 'Copy All Replies'; }, 1500);
+    setTimeout(function() { btn.textContent = 'Copy All Replies'; }, 1500);
   });
 }
 
-REPO_NAMES.forEach(r => {
+REPO_NAMES.forEach(function(r) {
   const b = document.createElement('button');
   b.className = 'repo-btn'; b.dataset.repo = r; b.textContent = r;
-  b.onclick = () => filterRepo(r);
+  b.onclick = function() { filterRepo(r); };
   document.getElementById('repo-buttons').appendChild(b);
 });
 
 function renderLog() {
   const entries = activeRepo === 'all'
     ? ALL_LOG
-    : ALL_LOG.filter(e => e.repo === activeRepo);
+    : ALL_LOG.filter(function(e) { return e.repo === activeRepo; });
 
   document.getElementById('log-badge').textContent = entries.length;
 
@@ -293,18 +317,17 @@ function renderLog() {
   };
 
   const html = entries.length
-    ? entries.map(e => {
+    ? entries.map(function(e) {
         const label = actionLabel[e.action] || e.action;
-        const taskRef = e.task_title ? `<b>#${e.task_id}</b> ${esc(e.task_title)}` : '';
-        const repoTag = activeRepo === 'all' ? `<span class="log-repo">[${e.repo}]</span>` : '';
+        const taskRef = e.task_title ? '<b>#' + e.task_id + '</b> ' + esc(e.task_title) : '';
+        const repoTag = activeRepo === 'all' ? '<span class="log-repo">[' + e.repo + ']</span>' : '';
         const time = (e.created_at || '').slice(0, 16).replace('T', ' ');
-        return `
-          <div class="log-entry">
-            <span class="log-time">${time}</span>
-            <span class="log-action log-${e.action}">${label}</span>
-            <span class="log-note">${taskRef}${e.note ? ' — ' + esc(e.note) : ''}${repoTag}</span>
-            <span class="log-actor">${e.actor}</span>
-          </div>`;
+        return '<div class="log-entry">' +
+          '<span class="log-time">' + time + '</span>' +
+          '<span class="log-action log-' + e.action + '">' + label + '</span>' +
+          '<span class="log-note">' + taskRef + (e.note ? ' &#8212; ' + esc(e.note) : '') + repoTag + '</span>' +
+          '<span class="log-actor">' + e.actor + '</span>' +
+        '</div>';
       }).join('')
     : '<div class="empty">No activity logged yet.</div>';
 
@@ -312,19 +335,17 @@ function renderLog() {
 }
 
 const _origFilter = filterRepo;
-filterRepo = (repo) => { _origFilter(repo); renderLog(); };
+filterRepo = function(repo) { _origFilter(repo); renderLog(); };
 
 render();
 renderLog();
-</script>
-</body>
-</html>`;
+`;
 }
 
 // --- Main ---
-async function main() {
-  const repoRoot = path.resolve(__dirname, '..', '..');
-  const repoName = path.basename(repoRoot);
+function main() {
+  const repoRoot  = path.resolve(__dirname, '..', '..');
+  const repoName  = path.basename(repoRoot);
   const repoPaths = [[path.join(repoRoot, 'tasks.db'), repoName]];
 
   for (const rp of extraRepos) {
@@ -332,12 +353,12 @@ async function main() {
     repoPaths.push([path.join(abs, 'tasks.db'), path.basename(abs)]);
   }
 
-  const allTasks = [];
-  const allLog   = [];
+  const allTasks  = [];
+  const allLog    = [];
   const repoNames = [];
   for (const [dbPath, name] of repoPaths) {
-    const tasks = await loadTasks(dbPath, name);
-    const log   = await loadLog(dbPath, name);
+    const tasks = loadTasks(dbPath, name);
+    const log   = loadLog(dbPath, name);
     allTasks.push(...tasks);
     allLog.push(...log);
     if (!repoNames.includes(name)) repoNames.push(name);
@@ -356,9 +377,9 @@ async function main() {
   const inProgress = allTasks.filter(t => t.status === 'in_progress').length;
   const pending    = allTasks.filter(t => t.status === 'pending').length;
 
-  console.log(`✓ ${outFile} generated`);
-  console.log(`  🔴 Needs input: ${needsHuman}  🟡 In progress: ${inProgress}  ⚪ Pending: ${pending}`);
-  if (needsHuman) console.log('  → Open dashboard.html, fill replies, then /unblock');
+  console.log('✓ ' + outFile + ' generated');
+  console.log('  Needs input: ' + needsHuman + '  In progress: ' + inProgress + '  Pending: ' + pending);
+  if (needsHuman) console.log('  -> Open dashboard.html, fill replies, then /unblock');
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main();
