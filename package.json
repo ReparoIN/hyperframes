@@ -1,0 +1,12 @@
+{
+  "name": "hyperframes",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "tasks:init": "node .task-flow/scripts/init_db.js",
+    "tasks:dashboard": "node .task-flow/scripts/gen_dashboard.js"
+  },
+  "devDependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}
