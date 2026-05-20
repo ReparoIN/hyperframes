@@ -27,6 +27,21 @@
         "panel": "shared",
         "close": true
       }
+    },
+    {
+      "label": "Build CodeGraph Index",
+      "type": "shell",
+      "command": "npm run codegraph:build",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
     }
   ]
 }

@@ -5,7 +5,8 @@
   "scripts": {
     "tasks:init": "node .task-flow/scripts/init_db.js",
     "tasks:dashboard": "node .task-flow/scripts/gen_dashboard.js"
-  },
+  ,
+    "codegraph:build": "npx @colbymchenry/codegraph build"},
   "devDependencies": {
     "sqlite3": "^5.1.7"
   }
