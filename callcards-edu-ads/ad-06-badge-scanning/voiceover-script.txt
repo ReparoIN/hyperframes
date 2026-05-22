@@ -1,4 +1,4 @@
-Call Cards — Website QR
+CallCards — Website QR
 Educational: 3 Ways Your Website QR Fails at Trade Shows
 Duration: 30s | Format: 9:16 | Hook: problem_aware
 
@@ -8,6 +8,6 @@ Duration: 30s | Format: 9:16 | Hook: problem_aware
 
 [0:13-0:20] Two: no lead captured — just an anonymous visit.
 
-[0:20-0:27] Three: all of this only if it loads. Slow expo networks. Half the time, it won't. Call Cards saves your card for easy revisit, captures name and number — every scan.
+[0:20-0:27] Three: all of this only if it loads. Slow expo networks. Half the time, it won't. CallCards saves your card for easy revisit, captures name and number — every scan.
 
-[0:27-0:30] Get your free digital card at call.cards.
+[0:27-0:30] Get your free digital card at call dot cards.

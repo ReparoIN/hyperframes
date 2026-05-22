@@ -1,4 +1,4 @@
-Call Cards — PDF Catalog QR
+CallCards — PDF Catalog QR
 Educational: Why Your PDF Catalog QR Fails at Trade Shows
 Duration: 30s | Format: 9:16 | Hook: problem_aware
 
@@ -6,6 +6,6 @@ Duration: 30s | Format: 9:16 | Hook: problem_aware
 
 [0:06-0:16] One: your PDF takes forever to load. If it loads at all. Visitor moves on.
 
-[0:16-0:27] Two: no lead captured. Just a loading screen. Call Cards captures their contact and shows your catalog — one scan, no download.
+[0:16-0:27] Two: no lead captured. Just a loading screen. CallCards captures their contact and shows your catalog — one scan, no download.
 
-[0:27-0:30] Get your free digital card and catalog at call.cards.
+[0:27-0:30] Get your free digital card and catalog at call dot cards.
