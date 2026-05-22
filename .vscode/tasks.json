@@ -42,6 +42,61 @@
       "runOptions": {
         "runOn": "folderOpen"
       }
+    },
+    {
+      "label": "Open HyperFrames Editor",
+      "type": "shell",
+      "command": "cd \"${workspaceFolder}/${input:project}\" && npm run dev",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "project",
+      "type": "pickString",
+      "description": "Pick a project to open in the HyperFrames editor",
+      "options": [
+        "my-first-video",
+        "callcards-15s",
+        "callcards-430",
+        "callcards-60s",
+        "callcards-edu-ads/ad-01-pocket-competitor",
+        "callcards-edu-ads/ad-02-fortune-booth",
+        "callcards-edu-ads/ad-03-wet-cards",
+        "callcards-edu-ads/ad-04-paper-lost",
+        "callcards-edu-ads/ad-05-lead-system",
+        "callcards-edu-ads/ad-06-badge-scanning",
+        "callcards-edu-ads/ad-07-print-vendor",
+        "callcards-edu-ads/ad-08-money-closing",
+        "callcards-edu-ads/ad-09-one-scan",
+        "callcards-edu-ads/ad-10-watch-this",
+        "callcards-edu-ads/ad-11-spend-angle",
+        "callcards-demo-ads/ad-01-pocket-competitor",
+        "callcards-demo-ads/ad-02-fortune-booth",
+        "callcards-demo-ads/ad-03-wet-cards",
+        "callcards-demo-ads/ad-04-paper-lost",
+        "callcards-demo-ads/ad-05-lead-system",
+        "callcards-demo-ads/ad-06-badge-scanning",
+        "callcards-demo-ads/ad-07-print-vendor",
+        "callcards-demo-ads/ad-08-money-closing",
+        "callcards-demo-ads/ad-09-one-scan",
+        "callcards-demo-ads/ad-10-watch-this",
+        "callcards-faceless-ads/ad-01-pocket-competitor",
+        "callcards-faceless-ads/ad-02-fortune-booth",
+        "callcards-faceless-ads/ad-03-wet-cards",
+        "callcards-faceless-ads/ad-04-paper-lost",
+        "callcards-faceless-ads/ad-05-lead-system",
+        "callcards-faceless-ads/ad-06-badge-scanning",
+        "callcards-faceless-ads/ad-07-print-vendor",
+        "callcards-faceless-ads/ad-08-money-closing",
+        "callcards-faceless-ads/ad-09-one-scan",
+        "callcards-faceless-ads/ad-10-watch-this"
+      ]
     }
   ]
 }
