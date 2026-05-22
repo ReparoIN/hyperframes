@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1080">
-<title>Call Cards — Google Forms</title>
+<title>CallCards — Google Forms</title>
 <script src="../../shared/gsap.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -24,38 +24,39 @@ body{width:1080px;height:1920px;overflow:hidden;font-family:-apple-system,BlinkM
 .rsolve{font-size:30px;font-weight:700;color:#00b37d;line-height:1.4}
 .cta-wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px;padding:80px}
 .cta-headline{font-size:76px;font-weight:800;color:#fff;text-align:center;line-height:1.15;letter-spacing:-1px}
-.cta-pill{background:#00b37d;border-radius:100px;padding:36px 88px}
-.cta-url{font-size:52px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.url-bar{background:#e8eef5;border-radius:16px;padding:28px 56px;display:flex;align-items:center}
+.url-prefix{font-size:44px;font-weight:500;color:#94a3b8;letter-spacing:0}
+.url-domain{font-size:52px;font-weight:800;color:#0d1f35;letter-spacing:-0.5px}
 </style>
 </head>
 <body>
-<div id="stage" data-composition-id="callcards-edu-ad-03" data-start="0" data-width="1080" data-height="1920" data-duration="30" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
-<div id="bg-hook" class="clip" data-start="0" data-duration="6"  data-track-index="0"></div>
-<div id="bg-meat" class="clip" data-start="6"  data-duration="21" data-track-index="0"></div>
-<div id="bg-cta"  class="clip" data-start="27" data-duration="3"  data-track-index="0"></div>
-<audio id="vo"    class="clip" data-start="0"  data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
-<audio id="music" class="clip" data-start="0"  data-duration="30" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
-<div class="hook-wrap clip" data-start="0" data-duration="6" data-track-index="1">
+<div id="stage" data-composition-id="callcards-edu-ad-03" data-start="0" data-width="1080" data-height="1920" data-duration="29.36" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
+<div id="bg-hook" class="clip" data-start="0" data-duration="2.24"  data-track-index="0"></div>
+<div id="bg-meat" class="clip" data-start="2.24"  data-duration="22.12" data-track-index="0"></div>
+<div id="bg-cta"  class="clip" data-start="24.36" data-duration="5.0"  data-track-index="0"></div>
+<audio id="vo"    class="clip" data-start="0"  data-duration="29.36" data-track-index="2" src="assets/voiceover.mp3"></audio>
+<audio id="music" class="clip" data-start="0"  data-duration="29.36" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
+<div class="hook-wrap clip" data-start="0" data-duration="2.24" data-track-index="1">
   <p id="ht" class="hook-text" style="font-size:84px">Why Google Forms<br>fails at trade shows.</p>
 </div>
-<p class="meat-hd clip" data-start="6" data-duration="21" data-track-index="1">Why Google Forms<br>Fails at Trade Shows</p>
-<div id="r1" class="rcard clip" data-start="6" data-duration="21" data-track-index="4">
+<p class="meat-hd clip" data-start="2.24" data-duration="22.12" data-track-index="1">Why Google Forms<br>Fails at Trade Shows</p>
+<div id="r1" class="rcard clip" data-start="2.24" data-duration="22.12" data-track-index="4">
   <div class="rlabel">Reason 1</div>
   <div class="rproblem">Congested expo networks.</div>
   <div class="rdetail">Form won't load. Visitor leaves.</div>
-  <div class="rsolve-lbl">Call Cards</div>
+  <div class="rsolve-lbl">CallCards</div>
   <div class="rsolve">Booth Mode runs on your device — form already on screen.</div>
 </div>
-<div id="r2" class="rcard clip" data-start="6" data-duration="21" data-track-index="5">
+<div id="r2" class="rcard clip" data-start="2.24" data-duration="22.12" data-track-index="5">
   <div class="rlabel">Reason 2</div>
   <div class="rproblem">No internet. Submission fails.</div>
   <div class="rdetail">Visitor filled every field. Hit submit. Data gone.</div>
-  <div class="rsolve-lbl">Call Cards</div>
+  <div class="rsolve-lbl">CallCards</div>
   <div class="rsolve">Saves locally. Syncs when you're back online.</div>
 </div>
-<div class="cta-wrap clip" data-start="27" data-duration="3" data-track-index="7">
+<div class="cta-wrap clip" data-start="24.36" data-duration="5.0" data-track-index="7">
   <p class="cta-headline">Get your free<br>digital card.</p>
-  <div class="cta-pill"><p class="cta-url">call.cards</p></div>
+  <div class="url-bar"><span class="url-prefix">https://</span><span class="url-domain">call.cards</span></div>
 </div>
 <script>
 gsap.set('#ht',{opacity:0,y:36});
@@ -65,13 +66,14 @@ gsap.set('.cta-wrap',{opacity:0});
 gsap.set(document.getElementById('music'),{volume:0.13});
 const tl=gsap.timeline({paused:true});
 tl.to('#ht',      {opacity:1,y:0,duration:0.55,ease:'power3.out'},0.3);
-tl.to('.meat-hd', {opacity:1,    duration:0.4, ease:'power2.out'},6.4);
-tl.to('#r1',      {opacity:1,y:0,duration:0.45,ease:'power2.out'},6.8);
-tl.to('#r2',      {opacity:1,y:0,duration:0.45,ease:'power2.out'},16.4);
-tl.to('.cta-wrap',{opacity:1,    duration:0.4, ease:'power2.out'},27.2);
+tl.to('.meat-hd', {opacity:1,    duration:0.4, ease:'power2.out'},2.64);
+tl.to('#r1',      {opacity:1,y:0,duration:0.45,ease:'power2.out'},2.74);
+tl.to('#r2',      {opacity:1,y:0,duration:0.45,ease:'power2.out'},10.85);
+tl.to('.cta-wrap',{opacity:1,    duration:0.4, ease:'power2.out'},24.56);
 window.__timelines = window.__timelines || {};
 window.__timelines['callcards-edu-ad-03']=tl;
 </script>
+<img id="watermark" src="../shared/cc-light.png" style="position:absolute;bottom:48px;right:48px;width:128px;opacity:0.55;pointer-events:none;z-index:100">
 </div>
 </body>
 </html>
