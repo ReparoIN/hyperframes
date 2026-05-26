@@ -1,6 +1,15 @@
-[0:00-0:06] Your card is in their pocket. Your competitor is in their phone.
-[0:06-0:12] Step one: share your QR code. One scan from their phone — that's all they need to get your full card.
-[0:12-0:18] Step two: they get everything. Your contact details, your product catalog, and a one-tap button to message you.
-[0:18-0:24] Step three: they share their card back. One tap from their phone sends their contact straight to your dashboard. No asking. No typing.
-[0:24-0:27] Step four: the lead is logged. Name, company, phone — automatically captured in your dashboard.
-[0:27-0:30] Get your free digital card at call.cards.
+CallCards — Pocket to Phone
+Competitor contrast | QR share flow
+Duration: ~30s | Format: 9:16 | Hook: problem-aware
+
+[0:00-0:06] Your card is in their pocket. Your competitor is in their phone — it's time you were too. Here's how CallCards does that.
+
+[0:06-0:12] They scan your QR. Your digital card and full catalog open instantly — saved permanently on their phone.
+
+[0:12-0:18] Your contact details, product range, and a direct button to message you. Everything they need, right there.
+
+[0:18-0:24] They share their contact back — a quick form, or one tap if they have CallCards. Either way, it lands in your dashboard.
+
+[0:24-0:27] Name, company, phone — in your leads list before they leave your booth.
+
+[0:27-0:30] Get your free digital card at call dot cards.

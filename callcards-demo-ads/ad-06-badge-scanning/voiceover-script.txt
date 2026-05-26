@@ -1,6 +1,15 @@
-[0:00-0:06] Most digital card apps don't have badge scanning. This one does.
-[0:06-0:12] Step one: share your QR code. One scan from their phone — that's all they need to get your full card.
-[0:12-0:18] Step two: they get everything. Your contact details, your product catalog, and a one-tap button to message you.
-[0:18-0:24] Step three: they share their card back. One tap from their phone sends their contact straight to your dashboard. No asking. No typing.
-[0:24-0:27] Step four: the lead is logged. Name, company, phone — automatically captured in your dashboard.
-[0:27-0:30] Get your free digital card at call.cards.
+CallCards — Badge Scanning
+Badge scanning feature | Badge scanner with notes
+Duration: ~30s | Format: 9:16 | Hook: solution-aware
+
+[0:00-0:06] Most digital card apps don't have badge scanning. CallCards does — and that's just the start. Here's everything it does.
+
+[0:06-0:12] Spot a visitor at your booth. Open the badge scanner, point at their expo badge QR — captured in two seconds.
+
+[0:12-0:18] Add a note right there. What they asked about, what you promised to follow up on. Context locked in before they move on.
+
+[0:18-0:24] Their full contact details pull from the organiser's database after the show. Name, company, phone — all there.
+
+[0:24-0:27] Every badge scan. Every note. All in your dashboard, ready to follow up the same day.
+
+[0:27-0:30] Get your free digital card at call dot cards.

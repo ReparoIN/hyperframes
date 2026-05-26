@@ -1,6 +1,15 @@
-[0:00-0:06] You spent a fortune on the booth. You lost the leads that were supposed to pay for it.
-[0:06-0:12] Step one: share your QR code. One scan from their phone — that's all they need to get your full card.
-[0:12-0:18] Step two: they get everything. Your contact details, your product catalog, and a one-tap button to message you.
-[0:18-0:24] Step three: they share their card back. One tap from their phone sends their contact straight to your dashboard. No asking. No typing.
-[0:24-0:27] Step four: the lead is logged. Name, company, phone — automatically captured in your dashboard.
-[0:27-0:30] Get your free digital card at call.cards.
+CallCards — Fortune Booth
+Booth spend pain | Multi-device capture + catalog safety net
+Duration: ~30s | Format: 9:16 | Hook: problem-aware
+
+[0:00-0:06] You spent a fortune on the booth. The leads that were supposed to pay for it walked away. Here's how CallCards captures them.
+
+[0:06-0:12] Open CallCards on as many devices as you need. Every visitor gets attended to — no queue, no one walking past.
+
+[0:12-0:18] They stop by — booth form on screen, details captured in seconds. You add a note. Done before they move on.
+
+[0:18-0:24] Visitor in a rush? They scan your QR. Your full digital catalog opens on their phone — saved permanently on their phone, even if they walk away.
+
+[0:24-0:27] Every interaction captured. Every visitor leaves with your catalog. No one walks away empty-handed.
+
+[0:27-0:30] Get your free digital card at call dot cards.
