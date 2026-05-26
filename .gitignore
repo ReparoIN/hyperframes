@@ -17,6 +17,16 @@
 # Rendered output
 renders/
 
+# Dependencies
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Original logo with space in filename (clean copy at callcards-edu-ads/shared/cc-light.png)
+cc light.png
+
 # Local Claude settings
 .claude/settings.local.json
 
