@@ -24,36 +24,36 @@ body{width:1080px;height:1920px;overflow:hidden;font-family:-apple-system,BlinkM
 </style>
 </head>
 <body>
-<div id="stage" data-composition-id="callcards-demo-ad-03" data-start="0" data-width="1080" data-height="1920" data-duration="30" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
-<div class="hook-wrap clip" data-start="0" data-duration="6" data-track-index="1">
+<div id="stage" data-composition-id="callcards-demo-ad-03" data-start="0" data-width="1080" data-height="1920" data-duration="35.47" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
+<div class="hook-wrap clip" data-start="0" data-duration="8.36" data-track-index="1">
   <p id="ht">A hundred cards. No notes on any of them. By Monday, the conversations are forgotten. Here's how the <em>CallCards</em> booth form fixes that.</p>
 </div>
-<div id="s1" class="step clip" data-start="6" data-duration="6" data-track-index="1">
+<div id="s1" class="step clip" data-start="8.36" data-duration="7.11" data-track-index="1">
   <div class="slabel">Step 1 — Laptop on Your Table</div>
   <div class="smain">Booth form open on your laptop.</div>
   <div class="ssub">Visitors fill in their details as they stop by.</div>
 </div>
-<div id="s2" class="step clip" data-start="12" data-duration="6" data-track-index="1">
+<div id="s2" class="step clip" data-start="15.47" data-duration="6.78" data-track-index="1">
   <div class="slabel">Step 2 — Add a Note</div>
   <div class="smain">What they asked about. What you promised to send.</div>
   <div class="ssub">Context captured before they walk away.</div>
 </div>
-<div id="s3" class="step clip" data-start="18" data-duration="6" data-track-index="1">
+<div id="s3" class="step clip" data-start="22.25" data-duration="5.65" data-track-index="1">
   <div class="slabel">Step 3 — Hit Save</div>
   <div class="smain">Lead lands in your dashboard instantly.</div>
   <div class="ssub">Name, contact, and your note — attached.</div>
 </div>
-<div id="s4" class="step clip" data-start="24" data-duration="3" data-track-index="1">
+<div id="s4" class="step clip" data-start="27.9" data-duration="4.57" data-track-index="1">
   <div class="slabel">Step 4 — Same Day Follow-Up</div>
   <div class="smain">No data entry after the show.</div>
   <div class="ssub">Every lead ready to follow up. Same day.</div>
 </div>
-<div class="cta-wrap clip" data-start="27" data-duration="3" data-track-index="1">
+<div class="cta-wrap clip" data-start="32.47" data-duration="3" data-track-index="1">
   <p class="cta-headline">Get your free<br>digital card.</p>
   <div class="url-bar"><span class="url-prefix">https://</span><span class="url-domain">call.cards</span></div>
 </div>
-<audio id="vo" class="clip" data-start="0" data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
-<audio id="music" class="clip" data-start="0" data-duration="30" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
+<audio id="vo" class="clip" data-start="0" data-duration="35.47" data-track-index="2" src="assets/voiceover.mp3"></audio>
+<audio id="music" class="clip" data-start="0" data-duration="35.47" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
 <script>
 gsap.set('#ht',{opacity:0,y:36});
 gsap.set(['#s1','#s2','#s3','#s4'],{opacity:0,y:20});
@@ -61,11 +61,11 @@ gsap.set('.cta-wrap',{opacity:0});
 gsap.set(document.getElementById('music'),{volume:0.13});
 const tl=gsap.timeline({paused:true});
 tl.to('#ht',{opacity:1,y:0,duration:0.55,ease:'power3.out'},0.3);
-tl.to('#s1',{opacity:1,y:0,duration:0.45,ease:'power2.out'},6.3);
-tl.to('#s2',{opacity:1,y:0,duration:0.45,ease:'power2.out'},12.3);
-tl.to('#s3',{opacity:1,y:0,duration:0.45,ease:'power2.out'},18.3);
-tl.to('#s4',{opacity:1,y:0,duration:0.45,ease:'power2.out'},24.3);
-tl.to('.cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},27.2);
+tl.to('#s1',{opacity:1,y:0,duration:0.45,ease:'power2.out'},8.66);
+tl.to('#s2',{opacity:1,y:0,duration:0.45,ease:'power2.out'},15.77);
+tl.to('#s3',{opacity:1,y:0,duration:0.45,ease:'power2.out'},22.55);
+tl.to('#s4',{opacity:1,y:0,duration:0.45,ease:'power2.out'},28.2);
+tl.to('.cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},32.67);
 window.__timelines=window.__timelines||{};
 window.__timelines['callcards-demo-ad-03']=tl;
 </script>

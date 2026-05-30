@@ -24,36 +24,36 @@ body{width:1080px;height:1920px;overflow:hidden;font-family:-apple-system,BlinkM
 </style>
 </head>
 <body>
-<div id="stage" data-composition-id="callcards-demo-ad-10" data-start="0" data-width="1080" data-height="1920" data-duration="30" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
-<div class="hook-wrap clip" data-start="0" data-duration="6" data-track-index="1">
+<div id="stage" data-composition-id="callcards-demo-ad-10" data-start="0" data-width="1080" data-height="1920" data-duration="32.35" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
+<div class="hook-wrap clip" data-start="0" data-duration="3.31" data-track-index="1">
   <p id="ht">Before you order your next batch of business cards, <em>watch this.</em></p>
 </div>
-<div id="s1" class="step clip" data-start="6" data-duration="6" data-track-index="1">
+<div id="s1" class="step clip" data-start="3.31" data-duration="7.72" data-track-index="1">
   <div class="slabel">Step 1 — Anywhere Your Card Goes</div>
   <div class="smain">Business cards. Brochures. Banners. Email signatures.</div>
   <div class="ssub">Your QR goes anywhere a printed card does.</div>
 </div>
-<div id="s2" class="step clip" data-start="12" data-duration="6" data-track-index="1">
+<div id="s2" class="step clip" data-start="11.03" data-duration="8.36" data-track-index="1">
   <div class="slabel">Step 2 — One Scan</div>
   <div class="smain">Full card and catalog open on their phone.</div>
   <div class="ssub">Saved permanently. Not thrown away. Kept forever.</div>
 </div>
-<div id="s3" class="step clip" data-start="18" data-duration="6" data-track-index="1">
+<div id="s3" class="step clip" data-start="19.39" data-duration="7.55" data-track-index="1">
   <div class="slabel">Step 3 — What Print Can't Do</div>
   <div class="smain">Message you. Share your card. Browse your catalog.</div>
   <div class="ssub">Your printed card can't do any of that.</div>
 </div>
-<div id="s4" class="step clip" data-start="24" data-duration="3" data-track-index="1">
+<div id="s4" class="step clip" data-start="26.94" data-duration="2.41" data-track-index="1">
   <div class="slabel">Step 4 — Your Call</div>
   <div class="smain">Still thinking about that reorder?</div>
   <div class="ssub">Your call.</div>
 </div>
-<div class="cta-wrap clip" data-start="27" data-duration="3" data-track-index="1">
+<div class="cta-wrap clip" data-start="29.35" data-duration="3" data-track-index="1">
   <p class="cta-headline">Get your free<br>digital card.</p>
   <div class="url-bar"><span class="url-prefix">https://</span><span class="url-domain">call.cards</span></div>
 </div>
-<audio id="vo" class="clip" data-start="0" data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
-<audio id="music" class="clip" data-start="0" data-duration="30" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
+<audio id="vo" class="clip" data-start="0" data-duration="32.35" data-track-index="2" src="assets/voiceover.mp3"></audio>
+<audio id="music" class="clip" data-start="0" data-duration="32.35" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
 <script>
 gsap.set('#ht',{opacity:0,y:36});
 gsap.set(['#s1','#s2','#s3','#s4'],{opacity:0,y:20});
@@ -61,11 +61,11 @@ gsap.set('.cta-wrap',{opacity:0});
 gsap.set(document.getElementById('music'),{volume:0.13});
 const tl=gsap.timeline({paused:true});
 tl.to('#ht',{opacity:1,y:0,duration:0.55,ease:'power3.out'},0.3);
-tl.to('#s1',{opacity:1,y:0,duration:0.45,ease:'power2.out'},6.3);
-tl.to('#s2',{opacity:1,y:0,duration:0.45,ease:'power2.out'},12.3);
-tl.to('#s3',{opacity:1,y:0,duration:0.45,ease:'power2.out'},18.3);
-tl.to('#s4',{opacity:1,y:0,duration:0.45,ease:'power2.out'},24.3);
-tl.to('.cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},27.2);
+tl.to('#s1',{opacity:1,y:0,duration:0.45,ease:'power2.out'},3.61);
+tl.to('#s2',{opacity:1,y:0,duration:0.45,ease:'power2.out'},11.33);
+tl.to('#s3',{opacity:1,y:0,duration:0.45,ease:'power2.out'},19.69);
+tl.to('#s4',{opacity:1,y:0,duration:0.45,ease:'power2.out'},27.24);
+tl.to('.cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},29.55);
 window.__timelines=window.__timelines||{};
 window.__timelines['callcards-demo-ad-10']=tl;
 </script>

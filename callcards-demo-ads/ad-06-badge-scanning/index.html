@@ -24,36 +24,36 @@ body{width:1080px;height:1920px;overflow:hidden;font-family:-apple-system,BlinkM
 </style>
 </head>
 <body>
-<div id="stage" data-composition-id="callcards-demo-ad-06" data-start="0" data-width="1080" data-height="1920" data-duration="30" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
-<div class="hook-wrap clip" data-start="0" data-duration="6" data-track-index="1">
+<div id="stage" data-composition-id="callcards-demo-ad-06" data-start="0" data-width="1080" data-height="1920" data-duration="35.64" data-fps="30" style="position:absolute;inset:0;width:1080px;height:1920px">
+<div class="hook-wrap clip" data-start="0" data-duration="6.95" data-track-index="1">
   <p id="ht">Most digital card apps don't have badge scanning. <em>CallCards does</em> — and that's just the start. Here's everything it does.</p>
 </div>
-<div id="s1" class="step clip" data-start="6" data-duration="6" data-track-index="1">
+<div id="s1" class="step clip" data-start="6.95" data-duration="6.72" data-track-index="1">
   <div class="slabel">Step 1 — Badge Scanner</div>
   <div class="smain">Open scanner. Point at their expo badge QR.</div>
   <div class="ssub">Captured in two seconds.</div>
 </div>
-<div id="s2" class="step clip" data-start="12" data-duration="6" data-track-index="1">
+<div id="s2" class="step clip" data-start="13.67" data-duration="7" data-track-index="1">
   <div class="slabel">Step 2 — Add a Note</div>
   <div class="smain">What they asked about. What you promised.</div>
   <div class="ssub">Context locked in before they move on.</div>
 </div>
-<div id="s3" class="step clip" data-start="18" data-duration="6" data-track-index="1">
+<div id="s3" class="step clip" data-start="20.67" data-duration="7.04" data-track-index="1">
   <div class="slabel">Step 3 — Contact Details Pull</div>
   <div class="smain">Full details from the organiser's database.</div>
   <div class="ssub">Name, company, phone — all there.</div>
 </div>
-<div id="s4" class="step clip" data-start="24" data-duration="3" data-track-index="1">
+<div id="s4" class="step clip" data-start="27.71" data-duration="4.93" data-track-index="1">
   <div class="slabel">Step 4 — Dashboard</div>
   <div class="smain">Every badge scan. Every note.</div>
   <div class="ssub">Ready to follow up the same day.</div>
 </div>
-<div class="cta-wrap clip" data-start="27" data-duration="3" data-track-index="1">
+<div class="cta-wrap clip" data-start="32.64" data-duration="3" data-track-index="1">
   <p class="cta-headline">Get your free<br>digital card.</p>
   <div class="url-bar"><span class="url-prefix">https://</span><span class="url-domain">call.cards</span></div>
 </div>
-<audio id="vo" class="clip" data-start="0" data-duration="30" data-track-index="2" src="assets/voiceover.mp3"></audio>
-<audio id="music" class="clip" data-start="0" data-duration="30" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
+<audio id="vo" class="clip" data-start="0" data-duration="35.64" data-track-index="2" src="assets/voiceover.mp3"></audio>
+<audio id="music" class="clip" data-start="0" data-duration="35.64" data-track-index="3" src="../shared/music.mp3" loop data-volume="0.13"></audio>
 <script>
 gsap.set('#ht',{opacity:0,y:36});
 gsap.set(['#s1','#s2','#s3','#s4'],{opacity:0,y:20});
@@ -61,11 +61,11 @@ gsap.set('.cta-wrap',{opacity:0});
 gsap.set(document.getElementById('music'),{volume:0.13});
 const tl=gsap.timeline({paused:true});
 tl.to('#ht',{opacity:1,y:0,duration:0.55,ease:'power3.out'},0.3);
-tl.to('#s1',{opacity:1,y:0,duration:0.45,ease:'power2.out'},6.3);
-tl.to('#s2',{opacity:1,y:0,duration:0.45,ease:'power2.out'},12.3);
-tl.to('#s3',{opacity:1,y:0,duration:0.45,ease:'power2.out'},18.3);
-tl.to('#s4',{opacity:1,y:0,duration:0.45,ease:'power2.out'},24.3);
-tl.to('.cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},27.2);
+tl.to('#s1',{opacity:1,y:0,duration:0.45,ease:'power2.out'},7.25);
+tl.to('#s2',{opacity:1,y:0,duration:0.45,ease:'power2.out'},13.97);
+tl.to('#s3',{opacity:1,y:0,duration:0.45,ease:'power2.out'},20.97);
+tl.to('#s4',{opacity:1,y:0,duration:0.45,ease:'power2.out'},28.01);
+tl.to('.cta-wrap',{opacity:1,duration:0.4,ease:'power2.out'},32.84);
 window.__timelines=window.__timelines||{};
 window.__timelines['callcards-demo-ad-06']=tl;
 </script>
