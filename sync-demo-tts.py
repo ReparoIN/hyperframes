@@ -98,12 +98,17 @@ def update_html_timing(html_path, cumulative_times, total_duration):
     Sections:  hook | s1  | s2  | s3  | s4  | cta
     Indices:    0     1     2     3     4     5
     cumulative_times has 7 entries: [0, t1, t2, t3, t4, t5, t6]
+
+    Pre-round all timestamps to 2dp before computing durations so that
+    data-start + data-duration == data-start_of_next (no 0.01s overlap).
     """
-    t1 = cumulative_times[1]   # hook ends
-    t2 = cumulative_times[2]   # s1 ends
-    t3 = cumulative_times[3]   # s2 ends
-    t4 = cumulative_times[4]   # s3 ends
-    t5 = cumulative_times[5]   # s4 ends = CTA speech starts
+    # Pre-round to 2dp so derived durations are consistent
+    T  = [round(t, 2) for t in cumulative_times]
+    t1 = T[1]   # hook ends
+    t2 = T[2]   # s1 ends
+    t3 = T[3]   # s2 ends
+    t4 = T[4]   # s3 ends
+    t5 = T[5]   # s4 ends = CTA speech starts
 
     with open(html_path, encoding="utf-8") as f:
         content = f.read()
@@ -162,7 +167,16 @@ def process_ad(ad_dir):
         print(f"  Expected 6 sections, got {len(sections)} -- skipped")
         return False
 
-    os.makedirs(os.path.join(ad_dir, "assets"), exist_ok=True)
+    assets_dir = os.path.join(ad_dir, "assets")
+    os.makedirs(assets_dir, exist_ok=True)
+
+    # Copy shared watermark into assets/ so the renderer can serve it within
+    # the project root (../shared/ traversal is blocked by the file server)
+    watermark_src = os.path.join(ADS_DIR, "shared", "cc-light.png")
+    watermark_dst = os.path.join(assets_dir, "cc-light.png")
+    if os.path.exists(watermark_src) and not os.path.exists(watermark_dst):
+        shutil.copy2(watermark_src, watermark_dst)
+
     tmpdir = tempfile.mkdtemp()
 
     try:
