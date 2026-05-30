@@ -172,7 +172,7 @@ def process_ad(ad_dir):
 
     # Copy shared watermark into assets/ so the renderer can serve it within
     # the project root (../shared/ traversal is blocked by the file server)
-    watermark_src = os.path.join(ADS_DIR, "shared", "cc-light.png")
+    watermark_src = os.path.join("callcards-edu-ads", "shared", "cc-light.png")
     watermark_dst = os.path.join(assets_dir, "cc-light.png")
     if os.path.exists(watermark_src) and not os.path.exists(watermark_dst):
         shutil.copy2(watermark_src, watermark_dst)
