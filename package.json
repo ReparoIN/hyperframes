@@ -6,7 +6,7 @@
     "tasks:init": "node .task-flow/scripts/init_db.js",
     "tasks:dashboard": "node .task-flow/scripts/gen_dashboard.js"
   ,
-    "codegraph:build": "npx @colbymchenry/codegraph build"},
+    "codegraph:build": "npx @colbymchenry/codegraph index"},
   "devDependencies": {
     "better-sqlite3": "^9.6.0"
   }
