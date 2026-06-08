@@ -34,6 +34,9 @@
   "exclude": [
     "**/.git/**",
     "**/node_modules/**",
+    "**/renders/**",
+    "**/assets/**",
+    "**/shared/music/**",
     "**/vendor/**",
     "**/Pods/**",
     "**/dist/**",
@@ -134,7 +137,4 @@
   "languages": [],
   "frameworks": [],
   "maxFileSize": 1048576,
-  "extractDocstrings": true,
-  "trackCallSites": true,
-  "enableEmbeddings": false
-}
+  "extractDocstri
