@@ -11,9 +11,10 @@
  *   node .task-flow/scripts/init_db.js
  *   npm run tasks:init
  *
- * Requires: npm install better-sqlite3
+ * No external dependencies -- uses Node.js built-in node:sqlite (v22.5+)
  */
 
+const { DatabaseSync } = require('node:sqlite');
 const fs   = require('fs');
 const path = require('path');
 
@@ -25,16 +26,9 @@ const SCRIPTS_DIR   = path.join('.task-flow', 'scripts');
 
 function initDb() {
   const existed = fs.existsSync(DB_PATH);
-  let db;
-  try {
-    db = require('better-sqlite3')(DB_PATH);
-  } catch (e) {
-    console.error('Cannot open DB:', e.message);
-    console.error('Run: npm install better-sqlite3');
-    process.exit(1);
-  }
+  const db = new DatabaseSync(DB_PATH);
 
-  db.pragma('journal_mode = WAL');
+  db.exec("PRAGMA journal_mode=WAL");
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS tasks (
@@ -85,8 +79,8 @@ function selfInstall() {
     const src  = path.join(thisDir, file);
     const dest = path.join(repoScriptsDir, file);
 
-    if (!fs.existsSync(src)) continue;          // running from repo already
-    if (path.resolve(src) === path.resolve(dest)) continue; // same file
+    if (!fs.existsSync(src)) continue;
+    if (path.resolve(src) === path.resolve(dest)) continue;
 
     if (!fs.existsSync(dest)) {
       fs.copyFileSync(src, dest);
@@ -143,7 +137,6 @@ function patchPackageJson() {
       console.log('✓ package.json already has ' + name);
       continue;
     }
-    // Insert before closing } of "scripts" block
     const scriptsMatch = updated.match(/"scripts"\s*:\s*\{/);
     if (!scriptsMatch) {
       console.log('⚠ Could not find "scripts" block in package.json');
@@ -171,6 +164,5 @@ patchPackageJson();
 
 console.log('');
 console.log('Task Flow initialised. Next steps:');
-console.log('  npm install better-sqlite3');
 console.log('  npm run tasks:dashboard   # generate dashboard.html');
 console.log('  open dashboard.html');

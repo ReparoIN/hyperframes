@@ -10,9 +10,10 @@
  *
  * Or: npm run tasks:dashboard
  *
- * Requires: npm install better-sqlite3
+ * No external dependencies -- uses Node.js built-in node:sqlite (v22.5+)
  */
 
+const { DatabaseSync } = require('node:sqlite');
 const fs   = require('fs');
 const path = require('path');
 
@@ -25,12 +26,12 @@ const extraRepos  = repoFlagIdx !== -1
   : [];
 const outFile = outFlagIdx !== -1 ? args[outFlagIdx + 1] : 'dashboard.html';
 
-// --- Load tasks from a DB (synchronous) ---
+// --- Load tasks from a DB ---
 function loadTasks(dbPath, repoName) {
   if (!fs.existsSync(dbPath)) return [];
   let db;
   try {
-    db = require('better-sqlite3')(dbPath, { readonly: true });
+    db = new DatabaseSync(dbPath, { readOnly: true });
   } catch (e) {
     return [];
   }
@@ -48,19 +49,19 @@ function loadTasks(dbPath, repoName) {
           WHEN 'done'        THEN 3
         END, id
     `).all();
-  } catch (e) { /* table might not exist */ }
+  } catch (e) { /* table might not exist yet */ }
   db.close();
   return rows
     .filter(r => !(r.status === 'done' && (r.updated_at || '').slice(0, 10) < cutoff))
     .map(r => ({ ...r, repo: repoName }));
 }
 
-// --- Load recent log entries from a DB (synchronous) ---
+// --- Load recent log entries from a DB ---
 function loadLog(dbPath, repoName, limit = 40) {
   if (!fs.existsSync(dbPath)) return [];
   let db;
   try {
-    db = require('better-sqlite3')(dbPath, { readonly: true });
+    db = new DatabaseSync(dbPath, { readOnly: true });
   } catch (e) {
     return [];
   }
@@ -90,8 +91,6 @@ function buildHtml(allTasks, allLog, repoNames, generatedAt) {
   const logJson   = JSON.stringify(allLog,   null, 2);
   const reposJson = JSON.stringify(repoNames);
 
-  // Browser-side JS is a separate string to avoid backtick conflicts
-  // in the outer Node.js template literal.
   const browserScript = getBrowserScript();
 
   return `<!DOCTYPE html>
@@ -189,7 +188,7 @@ ${browserScript}
 </html>`;
 }
 
-// --- Browser-side script (no backticks here — uses string concat for HTML) ---
+// --- Browser-side script (string concat only — no backticks) ---
 function getBrowserScript() {
   return `
 let activeRepo = 'all';
@@ -228,7 +227,6 @@ function renderTask(t, isChild, tl) {
 
   const updatedHtml = t.updated_at ? '<div class="task-meta">Updated ' + t.updated_at.slice(0,10) + '</div>' : '';
   const contextHtml = t.context ? '<div class="task-context">' + esc(t.context.trim()) + '</div>' : '';
-
   const childrenHtml = children.map(function(c) { return renderTask(c, true, tl); }).join('');
 
   return '<div class="task-card ' + (isChild ? 'sub' : '') + ' ' + cardClass(t.status) + '" data-repo="' + t.repo + '">' +
@@ -305,15 +303,9 @@ function renderLog() {
   document.getElementById('log-badge').textContent = entries.length;
 
   const actionLabel = {
-    created:     'created',
-    started:     'started',
-    done:        'done',
-    needs_human: 'blocked',
-    unblocked:   'unblocked',
-    wrap:        'wrap',
-    context:     'note',
-    sub_tasks:   'sub-tasks',
-    orchestrator:'orchestrated',
+    created:'created', started:'started', done:'done', needs_human:'blocked',
+    unblocked:'unblocked', wrap:'wrap', context:'note',
+    sub_tasks:'sub-tasks', orchestrator:'orchestrated',
   };
 
   const html = entries.length
@@ -357,10 +349,8 @@ function main() {
   const allLog    = [];
   const repoNames = [];
   for (const [dbPath, name] of repoPaths) {
-    const tasks = loadTasks(dbPath, name);
-    const log   = loadLog(dbPath, name);
-    allTasks.push(...tasks);
-    allLog.push(...log);
+    allTasks.push(...loadTasks(dbPath, name));
+    allLog.push(...loadLog(dbPath, name));
     if (!repoNames.includes(name)) repoNames.push(name);
   }
   allLog.sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));

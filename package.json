@@ -8,6 +8,5 @@
   ,
     "codegraph:build": "npx @colbymchenry/codegraph index"},
   "devDependencies": {
-    "better-sqlite3": "^9.6.0"
   }
 }
